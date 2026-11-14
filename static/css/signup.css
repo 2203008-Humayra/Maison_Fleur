@@ -1,0 +1,455 @@
+/* =====================================
+   GENERAL STYLING
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #100d10;
+    font-family: 'DM Sans', sans-serif;
+    color: #F2E9E9;
+    padding: 30px;
+}
+
+
+/* =====================================
+   MAIN CONTAINER
+===================================== */
+
+.signup-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1450px;
+    min-height: 850px;
+    margin: auto;
+    overflow: hidden;
+    border: none;
+}
+
+
+/* =====================================
+   LEFT VISUAL SECTION
+===================================== */
+
+.signup-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 45px 55px;
+
+    background:
+        linear-gradient(
+            rgba(25, 15, 26, 0.35),
+            rgba(25, 15, 26, 0.65)
+        ),
+        url("/static/images/backgrounds/bg-flower.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.visual-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(43, 27, 43, 0.15),
+        rgba(43, 27, 43, 0.35)
+    );
+    pointer-events: none;
+}
+
+.brand,
+.visual-content,
+.visual-footer {
+    position: relative;
+    z-index: 1;
+}
+
+.brand {
+    color: #F2E9E9;
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.visual-content {
+    max-width: 480px;
+    margin-bottom: 50px;
+}
+
+.visual-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #D9B5C5;
+    margin-bottom: 22px;
+}
+
+.visual-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(55px, 5vw, 78px);
+    font-weight: 400;
+    line-height: 0.98;
+    color: #F2E9E9;
+    margin-bottom: 25px;
+}
+
+.visual-description {
+    max-width: 370px;
+    font-size: 13px;
+    line-height: 2;
+    color: #E0D0D9;
+    font-weight: 300;
+}
+
+.visual-footer {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: #D0BEC8;
+}
+
+
+/* =====================================
+   RIGHT FORM SECTION
+===================================== */
+
+.signup-form-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 55px 65px;
+
+    background:
+        linear-gradient(
+            rgba(43, 27, 43, 0.87),
+            rgba(43, 27, 43, 0.90)
+        ),
+        url("/static/images/backgrounds/login-bg.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.form-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(43, 27, 43, 0.10);
+    pointer-events: none;
+}
+
+.signup-form-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+}
+
+
+/* =====================================
+   FORM HEADING
+===================================== */
+
+.form-heading {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #C5A5B3;
+    margin-bottom: 12px;
+}
+
+.form-heading h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 49px;
+    font-weight: 500;
+    color: #F2E9E9;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #D0BEC8;
+    font-weight: 300;
+}
+
+
+/* =====================================
+   FORM INPUTS
+===================================== */
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 11px;
+    letter-spacing: 0.7px;
+    color: #E0D0D9;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 15px;
+
+    background: rgba(242, 233, 233, 0.06);
+    border: 1px solid rgba(197, 165, 179, 0.35);
+
+    color: #F2E9E9;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: #A994A2;
+    font-weight: 300;
+}
+
+.form-group input:focus {
+    border-color: #C5A5B3;
+    background: rgba(242, 233, 233, 0.10);
+}
+
+.form-group small {
+    font-size: 10px;
+    color: #BCA8B5;
+}
+
+
+/* =====================================
+   SIGNUP BUTTON
+===================================== */
+
+.signup-button {
+    width: 100%;
+    padding: 15px;
+
+    margin-top: 5px;
+
+    background: #B18A9D;
+    border: 1px solid #B18A9D;
+
+    color: #2B1B2B;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.signup-button:hover {
+    background: #C5A5B3;
+    border-color: #C5A5B3;
+}
+
+
+/* =====================================
+   LOGIN LINK
+===================================== */
+
+.login-text {
+    text-align: center;
+    margin-top: 23px;
+    font-size: 11px;
+    color: #D0BEC8;
+}
+
+.login-text a {
+    color: #D99AAA;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================
+   DIVIDER
+===================================== */
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.divider span {
+    flex: 1;
+    height: 1px;
+    background: rgba(197, 165, 179, 0.25);
+}
+
+.divider p {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #A994A2;
+}
+
+
+/* =====================================
+   BROWSE LINK
+===================================== */
+
+.browse-link {
+    display: block;
+    text-align: center;
+
+    padding: 13px;
+
+    border: 1px solid rgba(197, 165, 179, 0.35);
+
+    color: #E0D0D9;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    transition: all 0.3s ease;
+}
+
+.browse-link:hover {
+    border-color: #D99AAA;
+    color: #D99AAA;
+    background: rgba(177, 138, 157, 0.08);
+}
+
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.form-footer {
+    text-align: center;
+    margin-top: 30px;
+
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    color: #A994A2;
+}
+
+
+/* =====================================
+   MOBILE BRAND
+===================================== */
+
+.mobile-brand {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: #F2E9E9;
+    text-decoration: none;
+    margin-bottom: 30px;
+}
+
+
+/* =====================================
+   RESPONSIVE DESIGN
+===================================== */
+
+@media (max-width: 1000px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .signup-container {
+        grid-template-columns: 0.85fr 1.15fr;
+    }
+
+    .signup-visual {
+        padding: 35px;
+    }
+
+    .signup-form-section {
+        padding: 45px 35px;
+    }
+
+    .visual-content h1 {
+        font-size: 58px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 0;
+    }
+
+    .signup-container {
+    display: block;
+    min-height: 100vh;
+    border: none;
+}
+
+    .signup-visual {
+        display: none;
+    }
+
+    .signup-form-section {
+        min-height: 100vh;
+        padding: 45px 25px;
+    }
+
+    .mobile-brand {
+        display: block;
+    }
+
+    .form-heading h2 {
+        font-size: 42px;
+    }
+
+}
+
+.message {
+    padding: 12px 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.message.success {
+    color: #B9D9BD;
+    background: rgba(100, 160, 110, 0.12);
+    border-left: 2px solid #91BD98;
+}
+
+.message.error {
+    color: #E8A9B0;
+    background: rgba(180, 80, 95, 0.12);
+    border-left: 2px solid #D58A96;
+}

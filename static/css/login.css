@@ -1,0 +1,499 @@
+/* =========================================
+   GENERAL
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #2B1B2B;
+    font-family: 'DM Sans', sans-serif;
+    color: #F2E9E9;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.login-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    background: #2B1B2B;
+}
+
+
+/* =========================================
+   LEFT FLORAL VISUAL
+========================================= */
+
+.login-visual {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 45px 65px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(29, 17, 29, 0.25),
+            rgba(29, 17, 29, 0.45) 45%,
+            rgba(29, 17, 29, 0.85)
+        ),
+        url("/static/images/backgrounds/bg-flower.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.visual-logo {
+    position: relative;
+    z-index: 1;
+
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.visual-logo span {
+    color: #D99AAA;
+}
+
+.visual-content {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin-bottom: 30px;
+}
+
+.visual-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #E8C9D5;
+    margin-bottom: 25px;
+}
+
+.visual-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(60px, 6vw, 88px);
+    line-height: 0.95;
+    font-weight: 400;
+    color: #F2E9E9;
+}
+
+.visual-content h1 span {
+    color: #D99AAA;
+    font-style: italic;
+}
+
+.visual-description {
+    max-width: 350px;
+    margin-top: 28px;
+
+    font-size: 13px;
+    line-height: 2;
+    font-weight: 300;
+
+    color: #E5D9DF;
+}
+
+.visual-bottom {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #E5D9DF;
+}
+
+
+/* =========================================
+   RIGHT LOGIN SECTION
+========================================= */
+
+.login-form-section {
+    min-height: 100vh;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 80px 55px;
+
+    background:
+    linear-gradient(
+        rgba(43, 27, 43, 0.82),
+        rgba(43, 27, 43, 0.88)
+    ),
+    url("/static/images/backgrounds/login-bg.jpg");
+
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+.back-home {
+    position: absolute;
+    top: 42px;
+    right: 50px;
+
+    color: #D0BEC8;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+
+    transition: color 0.3s ease;
+}
+
+.back-home:hover {
+    color: #D99AAA;
+}
+
+
+/* =========================================
+   LOGIN CONTAINER
+========================================= */
+
+.login-container {
+    width: 100%;
+    max-width: 390px;
+}
+
+.login-heading {
+    margin-bottom: 45px;
+}
+
+.form-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #C5A5B3;
+    margin-bottom: 20px;
+}
+
+.login-heading h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 58px;
+    font-weight: 400;
+    line-height: 0.95;
+    color: #F2E9E9;
+}
+
+.login-heading h2 span {
+    color: #D99AAA;
+    font-style: italic;
+}
+
+.form-description {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #D0BEC8;
+    font-weight: 300;
+}
+
+
+/* =========================================
+   FORM FIELDS
+========================================= */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-group label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #D0BEC8;
+}
+
+.form-group input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(197, 165, 179, 0.35);
+    outline: none;
+
+    background: rgba(20, 13, 21, 0.2);
+
+    color: #F2E9E9;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+
+    transition: border-color 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: rgba(208, 190, 200, 0.5);
+    font-weight: 300;
+}
+
+.form-group input:focus {
+    border-color: #B18A9D;
+}
+
+.password-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password {
+    font-size: 10px;
+    color: #C5A5B3;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: #D99AAA;
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-submit {
+    width: 100%;
+    height: 50px;
+
+    margin-top: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    border: 1px solid #B18A9D;
+    background: #624557;
+
+    color: #F2E9E9;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.login-submit span {
+    font-size: 16px;
+}
+
+.login-submit:hover {
+    background: #78576B;
+    border-color: #D99AAA;
+}
+
+
+/* =========================================
+   REGISTER LINK
+========================================= */
+
+.register-prompt {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.register-prompt p {
+    font-size: 11px;
+    color: #D0BEC8;
+}
+
+.register-prompt a {
+    color: #D99AAA;
+    margin-left: 4px;
+}
+
+.register-prompt a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin: 30px 0;
+
+    color: #A88B9B;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(197, 165, 179, 0.25);
+}
+
+
+/* =========================================
+   BROWSE LINK
+========================================= */
+
+.browse-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 11px;
+    color: #E5D9DF;
+
+    transition: color 0.3s ease;
+}
+
+.browse-link:hover {
+    color: #D99AAA;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.form-footer {
+    position: absolute;
+    bottom: 25px;
+
+    text-align: center;
+
+    font-size: 9px;
+    color: rgba(208, 190, 200, 0.55);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 950px) {
+
+    .login-page {
+        grid-template-columns: 0.85fr 1fr;
+    }
+
+    .login-visual {
+        padding: 35px;
+    }
+
+    .login-form-section {
+        padding: 80px 35px;
+    }
+
+    .back-home {
+        right: 30px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .login-page {
+        display: block;
+    }
+
+    .login-visual {
+        min-height: 380px;
+        padding: 30px;
+    }
+
+    .visual-content {
+        margin: 70px 0 30px;
+    }
+
+    .visual-content h1 {
+        font-size: 58px;
+    }
+
+    .visual-description {
+        font-size: 11px;
+    }
+
+    .login-form-section {
+        min-height: 750px;
+        padding: 90px 28px 80px;
+    }
+
+    .back-home {
+        top: 30px;
+        right: 28px;
+    }
+
+    .login-container {
+        max-width: 430px;
+    }
+
+    .form-footer {
+        bottom: 20px;
+        width: 90%;
+    }
+
+}
+
+/* =====================================
+   SUCCESS AND ERROR MESSAGES
+===================================== */
+
+.message {
+    padding: 12px 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.message.success {
+    color: #B9D9BD;
+    background: rgba(100, 160, 110, 0.12);
+    border-left: 2px solid #91BD98;
+}
+
+.message.error {
+    color: #E8A9B0;
+    background: rgba(180, 80, 95, 0.12);
+    border-left: 2px solid #D58A96;
+}

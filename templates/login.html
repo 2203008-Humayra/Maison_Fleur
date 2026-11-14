@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Log In | Maison Fleur</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+<main class="login-page">
+
+    <!-- LEFT SIDE: FLORAL VISUAL -->
+
+    <section class="login-visual">
+
+        <a href="{{ url_for('home') }}" class="visual-logo">
+            Maison Fleur<span>.</span>
+        </a>
+
+        <div class="visual-content">
+
+            <p class="visual-eyebrow">THE ART OF GIVING FLOWERS</p>
+
+            <h1>
+                Every bloom<br>
+                begins with<br>
+                <span>a feeling.</span>
+            </h1>
+
+            <p class="visual-description">
+                A little place for thoughtful gestures,
+                beautiful arrangements and moments
+                worth remembering.
+            </p>
+
+        </div>
+
+        <div class="visual-bottom">
+            <span>MAISON FLEUR</span>
+            <span>EST. 2026</span>
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDE: LOGIN FORM -->
+
+    <section class="login-form-section">
+
+        <a href="{{ url_for('home') }}" class="back-home">
+            ← Back to Home
+        </a>
+
+        <div class="login-container">
+
+            <div class="login-heading">
+
+                <p class="form-eyebrow">WELCOME BACK</p>
+
+                <h2>
+                    A pleasure<br>
+                    <span>to see you.</span>
+                </h2>
+
+                <p class="form-description">
+                    Sign in to continue your floral journey.
+                </p>
+
+            </div>
+
+
+            <!-- SUCCESS AND ERROR MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+
+            <!-- LOGIN FORM -->
+
+            <form class="login-form" action="{{ url_for('login') }}" method="POST">
+
+                <div class="form-group">
+
+                    <label for="email">EMAIL ADDRESS</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <div class="password-label">
+
+                        <label for="password">PASSWORD</label>
+
+                        <a href="#" class="forgot-password">
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit" class="login-submit">
+                    SIGN IN <span>↗</span>
+                </button>
+
+            </form>
+
+
+            <div class="register-prompt">
+
+                <p>
+                    New to Maison Fleur?
+                    <a href="{{ url_for('signup') }}">Create an account</a>
+                </p>
+
+            </div>
+
+
+            <div class="login-divider">
+                <span>OR</span>
+            </div>
+
+
+            <a href="{{ url_for('catalog') }}" class="browse-link">
+                Continue exploring our flowers
+                <span>↗</span>
+            </a>
+
+        </div>
+
+
+        <div class="form-footer">
+            <p>© 2026 Maison Fleur. Made of Petals & Poetry.</p>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>
