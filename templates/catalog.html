@@ -6,10 +6,10 @@
 
     <title>Our Collection | Maison Fleur</title>
 
-    <link rel="stylesheet" href="/static/css/catalog.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/catalog.css') }}">
 </head>
 
-<body>
+<body data-user-logged-in="{{ 'true' if session.get('user_id') else 'false' }}">
 
     <div class="page-overlay"></div>
 
@@ -23,14 +23,15 @@
             </a>
 
             <nav>
-                <a href="home.html">Home</a>
+                <a href="{{ url_for('home') }}">Home</a>
                 <a href="#individual-flowers">Flowers</a>
                 <a href="#house-specials">House Specials</a>
                 <a href="#individual-flowers">Create a Bouquet</a>
             </nav>
 
-            <a href="#basket" class="basket-link">
-                Basket <span id="basket-count">0</span>
+            <a href="{{ url_for('basket') }}" class="basket-link">
+            Basket
+            <span id="navBasketCount">0</span>
             </a>
 
         </header>
@@ -150,14 +151,14 @@
 
                 <div class="footer-navigation">
                     <p class="footer-heading">EXPLORE</p>
-                    <a href="home.html">Home</a>
+                    <a href="{{ url_for('home') }}">Home</a>
                     <a href="#individual-flowers">Individual Flowers</a>
                     <a href="#house-specials">House Specials</a>
                 </div>
 
                 <div class="footer-navigation">
                     <p class="footer-heading">MAISON FLEUR</p>
-                    <a href="home.html">Our Story</a>
+                    <a href="{{ url_for('home') }}">Our Story</a>
                     <a href="#">Contact</a>
                     <a href="#">Delivery Information</a>
                 </div>
@@ -434,18 +435,29 @@ try {
 
 
 function updateBasketCount() {
+    const countElement = document.getElementById("navBasketCount");
 
-    const totalItems = basket.reduce(
-        (total, item) => total + item.quantity,
-        0
-    );
+    if (!countElement) {
+        return;
+    }
 
-    document.getElementById("basket-count").textContent = totalItems;
+    const totalItems = basket.reduce(function(total, item) {
+        return total + (Number(item.quantity) || 0);
+    }, 0);
 
+    countElement.textContent = totalItems;
 }
 
 
 function addToBasket(product, quantity = 1) {
+
+    // Check login status using Flask session
+    const isLoggedIn = document.body.dataset.userLoggedIn === "true";
+
+    if (!isLoggedIn) {
+        window.location.href = "{{ url_for('login') }}";
+        return;
+    }
 
     const existingItem = basket.find(
         item => item.name === product.name &&
@@ -455,19 +467,16 @@ function addToBasket(product, quantity = 1) {
     if (existingItem) {
 
         existingItem.quantity += quantity;
-
         existingItem.price = product.price;
 
     } else {
 
         basket.push({
-
             name: product.name,
             image: product.image,
             price: product.price,
             quantity: quantity,
             type: product.type
-
         });
 
     }
@@ -478,9 +487,9 @@ function addToBasket(product, quantity = 1) {
     );
 
     updateBasketCount();
+    updateNavBasketCount();
 
     showToast(product.name + " added to your basket.");
-
 }
 
 
@@ -801,6 +810,30 @@ function renderBouquets() {
     });
 
 }
+
+
+function updateNavBasketCount() {
+
+    const countElement = document.getElementById("navBasketCount");
+
+    if (!countElement) {
+        return;
+    }
+
+    let savedBasket = JSON.parse(
+        localStorage.getItem("maisonFleurBasket")
+    ) || [];
+
+    let count = 0;
+
+    savedBasket.forEach(function(item) {
+        count += Number(item.quantity) || 0;
+    });
+
+    countElement.textContent = count;
+}
+
+updateNavBasketCount();
 
 
 // =====================================

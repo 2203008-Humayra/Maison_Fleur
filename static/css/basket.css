@@ -1,0 +1,420 @@
+/* GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #172B24;
+    color: #F2E9E9;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* HERO */
+
+.hero {
+    height: 520px;
+
+    background:
+        linear-gradient(
+            rgba(10, 10, 12, 0.35),
+            rgba(23, 43, 36, 0.75)
+        ),
+        url("../images/backgrounds/basket-bg.jpg");
+
+    background-size: cover;
+    background-position: center 43%;
+}
+
+
+/* NAVIGATION */
+
+.navbar {
+    height: 90px;
+    padding: 0 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.logo,
+.footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.logo span,
+.footer-logo span {
+    color: #C89BAA;
+}
+
+.nav-links {
+    display: flex;
+    gap: 38px;
+}
+
+.nav-links a,
+.continue-link {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #F0E9E8;
+}
+
+.nav-links a:hover,
+.continue-link:hover {
+    color: #D4A9B7;
+}
+
+.continue-link {
+    border-bottom: 1px solid #D0BEC8;
+    padding-bottom: 6px;
+}
+
+
+/* HERO TEXT */
+
+.hero-content {
+    height: 390px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.eyebrow {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #C7BBAF;
+}
+
+.hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 85px;
+    font-weight: 400;
+    color: #F5EDEF;
+    margin: 12px 0;
+}
+
+.hero-content p {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #E2D9DC;
+}
+
+
+/* BASKET SECTION */
+
+.basket-section {
+    background: #172B24;
+    padding: 75px 9% 100px;
+    min-height: 500px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    padding-bottom: 25px;
+    margin-bottom: 35px;
+
+    border-bottom: 1px solid rgba(215, 220, 207, 0.2);
+}
+
+.section-heading h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+.section-heading span {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #C4B0B8;
+}
+
+
+/* BASKET LAYOUT */
+
+.basket-layout {
+    display: grid;
+    grid-template-columns: 1.8fr 0.85fr;
+    gap: 60px;
+    align-items: start;
+}
+
+
+/* PRODUCTS */
+
+.basket-item {
+    display: grid;
+    grid-template-columns: 125px 1fr auto;
+    gap: 25px;
+    align-items: center;
+
+    padding: 25px 0;
+    border-bottom: 1px solid rgba(215, 220, 207, 0.17);
+}
+
+.product-image {
+    width: 125px;
+    height: 145px;
+    object-fit: cover;
+    background: #293B32;
+}
+
+.product-type {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #B6BFA9;
+}
+
+.product-details h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    margin: 9px 0;
+}
+
+.product-details p {
+    font-size: 11px;
+    color: #D0BEC8;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    width: fit-content;
+    margin-top: 15px;
+    padding: 5px 10px;
+
+    border: 1px solid rgba(220, 220, 210, 0.25);
+}
+
+.quantity-control button {
+    background: none;
+    border: none;
+    color: #F0E8E8;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.quantity-control span {
+    font-size: 11px;
+}
+
+.item-total {
+    font-size: 12px;
+    color: #F1E6E9;
+    text-align: right;
+}
+
+.remove-button {
+    display: block;
+    margin-top: 15px;
+
+    background: none;
+    border: none;
+    border-bottom: 1px solid #C5A5B3;
+
+    color: #C5A5B3;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+
+/* ORDER SUMMARY */
+
+.order-summary {
+    background: #263A31;
+    padding: 35px 30px;
+    border: 1px solid rgba(213, 220, 205, 0.15);
+}
+
+.order-summary h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    margin: 12px 0 30px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 11px;
+    color: #D1C9CA;
+}
+
+.divider {
+    height: 1px;
+    background: rgba(220, 220, 210, 0.2);
+    margin: 25px 0;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+
+    margin-bottom: 30px;
+}
+
+.checkout-button {
+    width: 100%;
+    padding: 16px;
+
+    background: #A78391;
+    border: none;
+
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.checkout-button:hover {
+    background: #8D6878;
+}
+
+.checkout-note {
+    text-align: center;
+    font-size: 9px;
+    line-height: 1.7;
+    color: #B8BEB4;
+    margin-top: 16px;
+}
+
+
+/* EMPTY BASKET */
+
+.empty-basket {
+    text-align: center;
+    padding: 70px 20px;
+}
+
+.empty-basket h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 12px;
+}
+
+.empty-basket p {
+    font-size: 11px;
+    color: #C3B9BC;
+    line-height: 1.8;
+}
+
+.empty-basket a {
+    display: inline-block;
+    margin-top: 22px;
+    padding-bottom: 5px;
+
+    border-bottom: 1px solid #C5A5B3;
+    color: #D8B9C5;
+    font-size: 11px;
+}
+
+
+/* FOOTER */
+
+.footer {
+    background: #101F19;
+    padding: 45px 8%;
+    text-align: center;
+}
+
+.footer-logo {
+    font-size: 27px;
+}
+
+.footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: #C4B8BB;
+    margin: 10px 0 25px;
+}
+
+.footer span {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #8E9B91;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    .basket-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .hero {
+        height: 420px;
+    }
+
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero-content h1 {
+        font-size: 58px;
+    }
+
+    .basket-section {
+        padding: 50px 6%;
+    }
+
+    .basket-item {
+        grid-template-columns: 95px 1fr;
+        gap: 15px;
+    }
+
+    .product-image {
+        width: 95px;
+        height: 120px;
+    }
+
+    .item-total {
+        grid-column: 2;
+        text-align: left;
+    }
+
+}

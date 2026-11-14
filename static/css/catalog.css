@@ -976,3 +976,19 @@ body {
 
 }
 
+.basket-link {
+    color: #F2E9E9;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.basket-link:hover {
+    color: #C5A5B3;
+}
+
+.basket-link span {
+    margin-left: 5px;
+    color: #D0A9B8;
+}

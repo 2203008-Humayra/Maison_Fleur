@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Basket | Maison Fleur</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/basket.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- HEADER AND HERO -->
+
+    <header class="hero">
+
+        <nav class="navbar">
+
+            <a href="{{ url_for('home') }}" class="logo">
+                Maison Fleur<span>.</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('catalog') }}">Flowers</a>
+                <a href="{{ url_for('profile') }}">My Account</a>
+            </div>
+
+            <a href="{{ url_for('catalog') }}" class="continue-link">
+                Continue Shopping
+            </a>
+
+        </nav>
+
+        <div class="hero-content">
+            <p class="eyebrow">YOUR SELECTION</p>
+            <h1>Your Basket</h1>
+            <p>A little collection of beauty, chosen by you.</p>
+        </div>
+
+    </header>
+
+
+    <!-- MAIN BASKET -->
+
+    <main class="basket-section">
+
+        <div class="section-heading">
+
+            <div>
+                <p class="eyebrow">MAISON FLEUR</p>
+                <h2>Your Collection</h2>
+            </div>
+
+            <span id="itemCount">0 ITEMS</span>
+
+        </div>
+
+
+        <div class="basket-layout">
+
+            <!-- PRODUCTS -->
+
+            <div id="basketProducts" class="basket-products">
+            </div>
+
+
+            <!-- ORDER SUMMARY -->
+
+            <aside class="order-summary">
+
+                <p class="eyebrow">YOUR ORDER</p>
+
+                <h3>Order Summary</h3>
+
+                <div class="summary-row">
+                    <span>Items</span>
+                    <span id="summaryItems">0</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">BDT 0</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="total-row">
+                    <span>Total</span>
+                    <span id="total">BDT 0</span>
+                </div>
+
+                <button id="checkoutButton" class="checkout-button">
+                    Proceed to Checkout
+                </button>
+
+                <p class="checkout-note">
+                    Delivery charges will be calculated at checkout.
+                </p>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <a href="{{ url_for('home') }}" class="footer-logo">
+            Maison Fleur<span>.</span>
+        </a>
+
+        <p>Made with petals, patience and poetry.</p>
+
+        <span>© 2026 Maison Fleur. All rights reserved.</span>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // LOAD BASKET
+
+        let basket = [];
+
+        try {
+            basket = JSON.parse(
+                localStorage.getItem("maisonFleurBasket")
+            ) || [];
+
+            if (!Array.isArray(basket)) {
+                basket = [];
+            }
+
+        } catch (error) {
+            basket = [];
+        }
+
+
+        // FORMAT PRICE
+
+        function formatPrice(price) {
+            return "BDT " + Number(price).toLocaleString("en-IN");
+        }
+
+
+        // DISPLAY BASKET
+
+        function displayBasket() {
+
+            const container = document.getElementById("basketProducts");
+
+            container.innerHTML = "";
+
+            let subtotal = 0;
+            let totalItems = 0;
+
+            if (basket.length === 0) {
+
+                const emptyMessage = document.createElement("div");
+
+                emptyMessage.className = "empty-basket";
+
+                const heading = document.createElement("h3");
+                heading.textContent = "Your basket is waiting to bloom.";
+
+                const paragraph = document.createElement("p");
+                paragraph.textContent = "Explore our flowers and signature bouquets to find something beautiful.";
+
+                const link = document.createElement("a");
+                link.href = "{{ url_for('catalog') }}";
+                link.textContent = "Explore the Collection";
+
+                emptyMessage.appendChild(heading);
+                emptyMessage.appendChild(paragraph);
+                emptyMessage.appendChild(link);
+
+                container.appendChild(emptyMessage);
+
+            }
+
+
+            for (let i = 0; i < basket.length; i++) {
+
+                const item = basket[i];
+
+                const quantity = Number(item.quantity) || 1;
+                const price = Number(item.price) || 0;
+
+                subtotal += price * quantity;
+                totalItems += quantity;
+
+
+                // PRODUCT CONTAINER
+
+                const product = document.createElement("div");
+                product.className = "basket-item";
+
+
+                // PRODUCT IMAGE
+
+                const image = document.createElement("img");
+
+                let folder = "flowers";
+
+                if (item.type === "bouquet") {
+                    folder = "bouquets";
+                }
+
+                image.src = "/static/images/" + folder + "/" + item.image;
+                image.alt = item.name;
+                image.className = "product-image";
+
+
+                // PRODUCT DETAILS
+
+                const details = document.createElement("div");
+                details.className = "product-details";
+
+                const type = document.createElement("p");
+
+                if (item.type === "bouquet") {
+                    type.textContent = "SIGNATURE BOUQUET";
+                } else {
+                    type.textContent = "INDIVIDUAL FLOWER";
+                }
+
+                type.className = "product-type";
+
+                const name = document.createElement("h3");
+                name.textContent = item.name;
+
+                const priceText = document.createElement("p");
+                priceText.textContent = formatPrice(price);
+
+                const quantityControl = document.createElement("div");
+                quantityControl.className = "quantity-control";
+
+
+                // DECREASE BUTTON
+
+                const decrease = document.createElement("button");
+                decrease.textContent = "-";
+
+                decrease.addEventListener("click", function() {
+                    changeQuantity(i, -1);
+                });
+
+
+                // QUANTITY
+
+                const quantityText = document.createElement("span");
+                quantityText.textContent = quantity;
+
+
+                // INCREASE BUTTON
+
+                const increase = document.createElement("button");
+                increase.textContent = "+";
+
+                increase.addEventListener("click", function() {
+                    changeQuantity(i, 1);
+                });
+
+
+                quantityControl.appendChild(decrease);
+                quantityControl.appendChild(quantityText);
+                quantityControl.appendChild(increase);
+
+
+                // REMOVE BUTTON
+
+                const remove = document.createElement("button");
+
+                remove.textContent = "Remove";
+                remove.className = "remove-button";
+
+                remove.addEventListener("click", function() {
+                    removeItem(i);
+                });
+
+
+                // ADD DETAILS
+
+                details.appendChild(type);
+                details.appendChild(name);
+                details.appendChild(priceText);
+                details.appendChild(quantityControl);
+
+
+                // ITEM TOTAL
+
+                const itemTotal = document.createElement("div");
+                itemTotal.className = "item-total";
+
+                itemTotal.textContent = formatPrice(price * quantity);
+
+                itemTotal.appendChild(remove);
+
+
+                // ADD EVERYTHING
+
+                product.appendChild(image);
+                product.appendChild(details);
+                product.appendChild(itemTotal);
+
+                container.appendChild(product);
+
+            }
+
+
+            // UPDATE SUMMARY
+
+            document.getElementById("itemCount").textContent =
+                totalItems + (totalItems === 1 ? " ITEM" : " ITEMS");
+
+            document.getElementById("summaryItems").textContent = totalItems;
+
+            document.getElementById("subtotal").textContent =
+                formatPrice(subtotal);
+
+            document.getElementById("total").textContent =
+                formatPrice(subtotal);
+
+
+            // SAVE BASKET
+
+            localStorage.setItem(
+                "maisonFleurBasket",
+                JSON.stringify(basket)
+            );
+
+        }
+
+
+        // CHANGE QUANTITY
+
+        function changeQuantity(index, amount) {
+
+            basket[index].quantity =
+                Number(basket[index].quantity) + amount;
+
+            if (basket[index].quantity <= 0) {
+                basket.splice(index, 1);
+            }
+
+            displayBasket();
+
+        }
+
+
+        // REMOVE ITEM
+
+        function removeItem(index) {
+
+            basket.splice(index, 1);
+
+            displayBasket();
+
+        }
+
+
+        // CHECKOUT
+
+        document.getElementById("checkoutButton").addEventListener("click", function() {
+
+            if (basket.length === 0) {
+                alert("Your basket is empty.");
+                return;
+            }
+
+            alert("Checkout will be available soon.");
+
+        });
+
+
+        // INITIAL DISPLAY
+
+        displayBasket();
+
+    </script>
+
+</body>
+
+</html>
