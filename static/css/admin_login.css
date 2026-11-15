@@ -1,0 +1,197 @@
+/* =====================================
+   MAISON FLEUR — ADMIN LOGIN
+   Purple Floral Theme
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        linear-gradient(rgba(16, 13, 16, 0.55), rgba(16, 13, 16, 0.75)),
+        url("../images/backgrounds/admin-purple-flower.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    font-family: 'DM Sans', sans-serif;
+    color: #F2E9E9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+}
+
+/* LOGIN CONTAINER */
+
+.login-container {
+    width: 100%;
+    max-width: 440px;
+}
+
+/* LOGIN BOX */
+
+.login-box {
+    background: rgba(30, 22, 32, 0.88);
+    backdrop-filter: blur(15px);
+
+    border: 1px solid rgba(182, 154, 203, 0.25);
+
+    padding: 55px 45px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* BRAND */
+
+.eyebrow {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #B69ACB;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* HEADING */
+
+.login-box h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 43px;
+    font-weight: 500;
+    text-align: center;
+    color: #F2E9E9;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #B9AEBB;
+    margin-top: 8px;
+    margin-bottom: 38px;
+}
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #C3A9D5;
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 15px;
+
+    background: rgba(16, 13, 16, 0.75);
+
+    border: 1px solid rgba(182, 154, 203, 0.25);
+
+    color: #F2E9E9;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: #827887;
+}
+
+.form-group input:focus {
+    border-color: #B69ACB;
+    box-shadow: 0 0 12px rgba(182, 154, 203, 0.12);
+}
+
+/* BUTTON */
+
+.login-box button {
+    width: 100%;
+    padding: 15px;
+
+    background: #684A78;
+    border: 1px solid #80638F;
+
+    color: #FFFFFF;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    margin-top: 10px;
+}
+
+.login-box button:hover {
+    background: #80638F;
+}
+
+/* FLASH MESSAGE */
+
+.flash-message {
+    padding: 12px;
+    margin-bottom: 20px;
+    font-size: 11px;
+    text-align: center;
+}
+
+.flash-message.error {
+    background: rgba(180, 70, 90, 0.15);
+    border: 1px solid rgba(220, 120, 140, 0.3);
+    color: #E8B3BF;
+}
+
+.flash-message.success {
+    background: rgba(100, 150, 110, 0.15);
+    border: 1px solid rgba(140, 190, 150, 0.3);
+    color: #B9D9BD;
+}
+
+/* BACK LINK */
+
+.back-link {
+    display: block;
+    text-align: center;
+
+    margin-top: 28px;
+
+    color: #B9AEBB;
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.back-link:hover {
+    color: #D2B8E2;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 480px) {
+
+    .login-box {
+        padding: 40px 25px;
+    }
+
+    .login-box h1 {
+        font-size: 36px;
+    }
+}

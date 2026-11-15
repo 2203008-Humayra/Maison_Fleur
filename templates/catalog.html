@@ -30,8 +30,8 @@
             </nav>
 
             <a href="{{ url_for('basket') }}" class="basket-link">
-            Basket
-            <span id="navBasketCount">0</span>
+                Basket
+                <span id="navBasketCount">0</span>
             </a>
 
         </header>
@@ -79,6 +79,7 @@
             <div class="intro-content">
                 <p class="eyebrow">PICK YOUR PETALS</p>
                 <h2>Individual <em>Flowers</em></h2>
+
                 <p>
                     Beautiful on their own. Extraordinary together.
                     Find the flowers that speak to you.
@@ -111,6 +112,7 @@
             <div class="intro-content">
                 <p class="eyebrow">COMPOSED WITH LOVE</p>
                 <h2>The Maison <em>Collection.</em></h2>
+
                 <p>
                     Our signature bouquets, thoughtfully arranged
                     and beautifully presented.
@@ -141,33 +143,43 @@
             <div class="footer-main">
 
                 <div class="footer-brand">
+
                     <a href="/" class="footer-logo">Maison Fleur.</a>
 
                     <p>
                         Made of petals, poetry<br>
                         and little moments of beauty.
                     </p>
+
                 </div>
 
                 <div class="footer-navigation">
+
                     <p class="footer-heading">EXPLORE</p>
+
                     <a href="{{ url_for('home') }}">Home</a>
                     <a href="#individual-flowers">Individual Flowers</a>
                     <a href="#house-specials">House Specials</a>
+
                 </div>
 
                 <div class="footer-navigation">
+
                     <p class="footer-heading">MAISON FLEUR</p>
+
                     <a href="{{ url_for('home') }}">Our Story</a>
                     <a href="#">Contact</a>
                     <a href="#">Delivery Information</a>
+
                 </div>
 
             </div>
 
             <div class="footer-bottom">
+
                 <span>© 2026 MAISON FLEUR. ALL RIGHTS RESERVED.</span>
                 <span>WITH LOVE, FROM PETALS TO PEOPLE.</span>
+
             </div>
 
         </footer>
@@ -181,733 +193,666 @@
     </div>
 
 
+    <!-- PRODUCTS FROM MYSQL DATABASE -->
+
+    <script id="flowers-data" type="application/json">
+        {{ flowers | tojson }}
+    </script>
+
+    <script id="bouquets-data" type="application/json">
+        {{ bouquets | tojson }}
+    </script>
+
+
     <!-- JAVASCRIPT -->
+    <script>
 
-<script>
+    // =====================================
+    // PRODUCTS FROM MYSQL DATABASE
+    // =====================================
 
-// =====================================
-// INDIVIDUAL FLOWERS
-// =====================================
+    const flowers = JSON.parse(
+        document.getElementById("flowers-data").textContent
+    );
 
-const flowers = [
-
-    { name: "White Iris", image: "white-iris.jpg", price: 135 },
-    { name: "Blue Cornflower", image: "blue-cornflower.jpg", price: 115 },
-
-    { name: "Red Carnation", image: "red-carnation.jpg", price: 140 },
-    { name: "White Carnation", image: "white-carnation.jpg", price: 140 },
-    { name: "Pink Carnation", image: "pink-carnation.jpg", price: 140 },
-
-    { name: "Orange Gerbera", image: "orange-gerbera.jpg", price: 95 },
-    { name: "Yellow Gerbera", image: "yellow-gerbera.jpg", price: 95 },
-    { name: "Red Gerbera", image: "red-gerbera.jpg", price: 95 },
-    { name: "Pink Gerbera", image: "pink-gerbera.jpg", price: 95 },
-
-    { name: "Red Dahlia", image: "red-dahlia.jpg", price: 170 },
-    { name: "White Dahlia", image: "white-dahlia.jpg", price: 170 },
-    { name: "Pink Dahlia", image: "pink-dahlia.jpg", price: 170 },
-
-    { name: "Sunflower", image: "sunflower.jpg", price: 200 },
-
-    { name: "White Lily", image: "white-lily.jpg", price: 425 },
-    { name: "Pink Lily", image: "pink-lily.jpg", price: 425 },
-
-    { name: "Purple Tulip", image: "purple-tulip.jpg", price: 350 },
-    { name: "Yellow Tulip", image: "yellow-tulips.jpg", price: 350 },
-    { name: "Red Tulip", image: "red-tulips.jpg", price: 350 },
-    { name: "White Tulip", image: "white-tulips.jpg", price: 350 },
-    { name: "Pink Tulip", image: "pink-tulips.jpg", price: 350 },
-
-    { name: "White Peony", image: "white-peony.jpg", price: 650 },
-    { name: "Pink Peony", image: "pink-peony.jpg", price: 650 },
-
-    { name: "White Orchid", image: "white-orchids.jpg", price: 230 },
-    { name: "Purple Orchid", image: "purple-orchids.jpg", price: 230 },
-
-    { name: "Gypsophila", image: "gypsophila.jpg", price: 270 },
-
-    { name: "Red Rose", image: "red-rose.jpg", price: 150 },
-    { name: "Pink Rose", image: "pink-rose.jpg", price: 150 },
-    { name: "Magenta Rose", image: "magenta-rose.jpg", price: 150 },
-    { name: "Blue Rose", image: "blue-rose.jpg", price: 150 },
-    { name: "White Rose", image: "white-rose.jpg", price: 150 },
-    { name: "Yellow Rose", image: "yellow-rose.jpg", price: 150 }
-
-];
+    const bouquets = JSON.parse(
+        document.getElementById("bouquets-data").textContent
+    );
 
 
-// =====================================
-// HOUSE SPECIAL BOUQUETS
-// =====================================
+    // =====================================
+    // TOAST TIMER
+    // =====================================
 
-const bouquets = [
-
-    { name: "Rosewood & Berry", image: "bouquet_01.jpg", price: 4500 },
-    { name: "Autumn Edition", image: "bouquet_02.jpg", price: 2600 },
-    { name: "Scarlet Column", image: "bouquet_03.jpg", price: 4200 },
-    { name: "Morning Mist", image: "bouquet_04.jpg", price: 2650 },
-    { name: "Sorbet Swirl", image: "bouquet_05.jpg", price: 1700 },
-    { name: "Solstice", image: "bouquet_06.jpg", price: 2000 },
-    { name: "Othello", image: "bouquet_07.jpg", price: 3500 },
-    { name: "Ballet Slippers", image: "bouquet_08.jpg", price: 10500 },
-    { name: "Midnight Sun", image: "bouquet_09.jpg", price: 1700 },
-    { name: "Porcelin & Dew", image: "bouquet_10.jpg", price: 5300 },
-    { name: "Sacred Vow", image: "bouquet_11.jpg", price: 11000},
-    { name: "Linen & Bloom", image: "bouquet_12.jpg", price: 2500 },
-    { name: "Wisteria Shadow", image: "bouquet_13.jpg", price: 5000 },
-    { name: "Sage & Serif", image: "bouquet_14.jpg", price: 2275 },
-    { name: "Eclipse", image: "bouquet_15.jpg", price: 1275 },
-    { name: "Rosette", image: "bouquet_16.jpg", price: 10300 },
-    { name: "Monochrome Plum", image: "bouquet_17.jpg", price: 4500 },
-    { name: "Duskfall", image: "bouquet_18.jpg", price: 3400 },
-    { name: "Velvet Dusk", image: "bouquet_19.jpg", price: 3575 }
-
-];
+    let toastTimer = null;
 
 
-// =====================================
-// PRICE FORMATTER
-// =====================================
+    // =====================================
+    // PRICE FORMATTER
+    // =====================================
 
-function formatPrice(price) {
+    function formatPrice(price) {
 
-    if (price === null || price === undefined) {
-        return "Price coming soon";
+        if (price === null || price === undefined) {
+            return "Price coming soon";
+        }
+
+        return "BDT " + Number(price).toLocaleString("en-US");
+
     }
 
-    return "BDT" + Number(price).toLocaleString("en-US");
 
-}
+    // =====================================
+    // IMAGE PREVIEW
+    // =====================================
+
+    const previewStyle = document.createElement("style");
+
+    previewStyle.textContent = `
+
+        .image-preview {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(20, 12, 21, 0.92);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+        }
+
+        .image-preview.active {
+            display: flex;
+        }
+
+        .preview-content {
+            position: relative;
+            width: min(90vw, 750px);
+            text-align: center;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: min(70vh, 650px);
+            object-fit: contain;
+            display: block;
+            margin: auto;
+        }
+
+        .preview-title {
+            color: #F2E9E9;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 30px;
+            margin-top: 15px;
+        }
+
+        .preview-close {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            border: none;
+            background: none;
+            color: #F2E9E9;
+            font-size: 32px;
+            cursor: pointer;
+        }
+
+        .flower-image-wrap img,
+        .bouquet-image-wrap img {
+            cursor: zoom-in;
+        }
+
+    `;
+
+    document.head.appendChild(previewStyle);
 
 
-// =====================================
-// IMAGE PREVIEW
-// =====================================
+    const preview = document.createElement("div");
 
-const previewStyle = document.createElement("style");
+    preview.className = "image-preview";
 
-previewStyle.textContent = `
+    preview.innerHTML = `
 
-    .image-preview {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        background: rgba(20, 12, 21, 0.92);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        padding: 25px;
-        backdrop-filter: blur(8px);
+        <div class="preview-content">
+
+            <button
+                class="preview-close"
+                type="button"
+                aria-label="Close preview"
+            >
+                &times;
+            </button>
+
+            <img class="preview-image" src="" alt="">
+
+            <h3 class="preview-title"></h3>
+
+        </div>
+
+    `;
+
+    document.body.appendChild(preview);
+
+
+    function openImagePreview(image, name) {
+
+        const previewImage = preview.querySelector(".preview-image");
+
+        previewImage.src = image;
+        previewImage.alt = name;
+
+        preview.querySelector(".preview-title").textContent = name;
+
+        preview.classList.add("active");
+
+        document.body.style.overflow = "hidden";
+
     }
 
-    .image-preview.active {
-        display: flex;
+
+    function closeImagePreview() {
+
+        preview.classList.remove("active");
+
+        document.body.style.overflow = "";
+
     }
 
-    .preview-content {
-        position: relative;
-        width: min(90vw, 750px);
-        text-align: center;
-    }
 
-    .preview-image {
-        width: 100%;
-        height: min(70vh, 650px);
-        object-fit: contain;
-        display: block;
-        margin: auto;
-    }
-
-    .preview-title {
-        color: #F2E9E9;
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 30px;
-        margin-top: 15px;
-    }
-
-    .preview-close {
-        position: absolute;
-        top: -35px;
-        right: 0;
-        border: none;
-        background: none;
-        color: #F2E9E9;
-        font-size: 32px;
-        cursor: pointer;
-    }
-
-    .flower-image-wrap img,
-    .bouquet-image-wrap img {
-        cursor: zoom-in;
-    }
-
-`;
-
-document.head.appendChild(previewStyle);
+    preview.querySelector(".preview-close").addEventListener(
+        "click",
+        closeImagePreview
+    );
 
 
-const preview = document.createElement("div");
+    preview.addEventListener("click", (event) => {
 
-preview.className = "image-preview";
+        if (event.target === preview) {
+            closeImagePreview();
+        }
 
-preview.innerHTML = `
-
-    <div class="preview-content">
-
-        <button class="preview-close" type="button" aria-label="Close preview">
-            &times;
-        </button>
-
-        <img class="preview-image" src="" alt="">
-
-        <h3 class="preview-title"></h3>
-
-    </div>
-
-`;
-
-document.body.appendChild(preview);
+    });
 
 
-function openImagePreview(image, name) {
+    document.addEventListener("keydown", (event) => {
 
-    const previewImage = preview.querySelector(".preview-image");
+        if (event.key === "Escape") {
+            closeImagePreview();
+        }
 
-    previewImage.src = image;
-    previewImage.alt = name;
-
-    preview.querySelector(".preview-title").textContent = name;
-
-    preview.classList.add("active");
-
-    document.body.style.overflow = "hidden";
-
-}
+    });
 
 
-function closeImagePreview() {
+    // =====================================
+    // UPDATE BASKET COUNT FROM MYSQL
+    // =====================================
 
-    preview.classList.remove("active");
+    async function updateBasketCount() {
 
-    document.body.style.overflow = "";
+        const countElement = document.getElementById("navBasketCount");
 
-}
-
-
-preview.querySelector(".preview-close").addEventListener("click", closeImagePreview);
-
-
-preview.addEventListener("click", (event) => {
-
-    if (event.target === preview) {
-        closeImagePreview();
-    }
-
-});
-
-
-document.addEventListener("keydown", (event) => {
-
-    if (event.key === "Escape") {
-        closeImagePreview();
-    }
-
-});
-
-
-// =====================================
-// BASKET
-// =====================================
-
-let basket = [];
-
-try {
-
-    basket = JSON.parse(
-        localStorage.getItem("maisonFleurBasket")
-    ) || [];
-
-} catch (error) {
-
-    basket = [];
-
-}
-
-
-// =====================================
-// UPDATE BASKET COUNT FROM MYSQL
-// =====================================
-
-async function updateBasketCount() {
-
-    const countElement = document.getElementById("navBasketCount");
-
-    if (!countElement) {
-        return;
-    }
-
-    try {
-
-        const response = await fetch("/api/cart");
-
-        if (!response.ok) {
-            countElement.textContent = "0";
+        if (!countElement) {
             return;
         }
 
-        const result = await response.json();
+        try {
 
-        if (!result.success) {
-            countElement.textContent = "0";
-            return;
-        }
+            const response = await fetch("/api/cart");
 
-        let totalItems = 0;
+            if (!response.ok) {
+                countElement.textContent = "0";
+                return;
+            }
 
-        result.items.forEach(function(item) {
-            totalItems += Number(item.product_quantity) || 0;
-        });
+            const result = await response.json();
 
-        countElement.textContent = totalItems;
+            if (!result.success || !Array.isArray(result.items)) {
+                countElement.textContent = "0";
+                return;
+            }
 
-    } catch (error) {
+            let totalItems = 0;
 
-        console.error("Basket count error:", error);
+            result.items.forEach(function(item) {
 
-    }
+                totalItems += Number(item.product_quantity) || 0;
 
-}
+            });
 
+            countElement.textContent = totalItems;
 
-// =====================================
-// ADD TO BASKET (MYSQL DATABASE)
-// =====================================
+        } catch (error) {
 
-async function addToBasket(product, quantity = 1) {
-
-    // Check login status
-    const isLoggedIn = document.body.dataset.userLoggedIn === "true";
-
-    if (!isLoggedIn) {
-        window.location.href = "{{ url_for('login') }}";
-        return;
-    }
-
-    try {
-
-        const response = await fetch("/api/cart", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                name: product.name,
-                image: product.image,
-                price: product.price,
-                quantity: quantity,
-                type: product.type
-
-            })
-
-        });
-
-        const result = await response.json();
-
-        // Check whether the user is logged in
-        if (response.status === 401) {
-            window.location.href = "{{ url_for('login') }}";
-            return;
-        }
-
-        // Check for other errors
-        if (!response.ok) {
-
-            showToast(
-                result.message || "Could not add this item to your basket."
-            );
-
-            return;
+            console.error("Basket count error:", error);
 
         }
 
-        // Show success notification
-        showToast(product.name + " added to your basket.");
-
-        // Refresh basket count from MySQL
-        await updateBasketCount();
-
-    } catch (error) {
-
-        console.error("Basket Error:", error);
-
-        showToast("Error: " + error.message);
-
     }
 
-}
 
-// =====================================
-// NOTIFICATION
-// =====================================
+    // =====================================
+    // SHOW TOAST
+    // =====================================
 
-let toastTimer = null;
+    function showToast(message) {
 
-function showToast(message) {
+        const toast = document.getElementById("toast");
 
-    const toast = document.getElementById("toast");
+        if (!toast) {
+            return;
+        }
 
-    if (!toast) {
-        console.log(message);
-        return;
-    }
+        toast.textContent = message;
 
-    toast.textContent = message;
+        toast.classList.add("show");
 
-    toast.classList.add("show");
-
-    if (toastTimer !== null) {
         clearTimeout(toastTimer);
+
+        toastTimer = setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        }, 2500);
+
     }
 
-    toastTimer = setTimeout(function() {
 
-        toast.classList.remove("show");
+    // =====================================
+    // ADD TO BASKET (MYSQL DATABASE)
+    // =====================================
 
-    }, 2500);
+    async function addToBasket(product, quantity = 1) {
 
-}
+        const isLoggedIn =
+            document.body.dataset.userLoggedIn === "true";
 
-// =====================================
-// RENDER FLOWERS
-// =====================================
+        if (!isLoggedIn) {
 
-function renderFlowers() {
+            window.location.href = "{{ url_for('login') }}";
 
-    const flowerGrid = document.getElementById("flower-grid");
+            return;
 
-    flowerGrid.innerHTML = "";
+        }
 
-    flowers.forEach((flower, index) => {
+        try {
 
-        const card = document.createElement("article");
+            const response = await fetch("/api/cart", {
 
-        card.className = "flower-item";
+                method: "POST",
 
-        card.innerHTML = `
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            <div class="flower-image-wrap">
+                body: JSON.stringify({
 
-                <img
-                    src="/static/images/flowers/${flower.image}"
-                    alt="${flower.name}"
-                    loading="lazy"
-                    tabindex="0"
-                    role="button"
-                    aria-label="View larger image of ${flower.name}"
-                >
+                    name: product.name,
+                    image: product.image,
+                    price: product.price,
+                    quantity: quantity,
+                    type: product.type
 
-                <span class="flower-index">
-                    ${String(index + 1).padStart(2, "0")}
-                </span>
+                })
 
-            </div>
+            });
 
-            <div class="flower-info">
 
-                <div>
+            const result = await response.json();
 
-                    <h3>${flower.name}</h3>
 
-                    <p class="flower-price">${formatPrice(flower.price)}</p>
+            if (response.status === 401) {
+
+                window.location.href = "{{ url_for('login') }}";
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                showToast(
+                    result.message || "Could not add this item to your basket."
+                );
+
+                return;
+
+            }
+
+
+            showToast(product.name + " added to your basket.");
+
+            await updateBasketCount();
+
+        } catch (error) {
+
+            console.error("Basket Error:", error);
+
+            showToast("Error: " + error.message);
+
+        }
+
+    }
+
+
+    // =====================================
+    // RENDER FLOWERS
+    // =====================================
+
+    function renderFlowers() {
+
+        const flowerGrid = document.getElementById("flower-grid");
+
+        flowerGrid.innerHTML = "";
+
+
+        flowers.forEach((flower, index) => {
+
+            const card = document.createElement("article");
+
+            card.className = "flower-item";
+
+            card.innerHTML = `
+
+                <div class="flower-image-wrap">
+
+                    <img
+                        src="/static/images/flowers/${flower.image}"
+                        alt="${flower.name}"
+                        loading="lazy"
+                        tabindex="0"
+                        role="button"
+                        aria-label="View larger image of ${flower.name}"
+                    >
+
+                    <span class="flower-index">
+                        ${String(index + 1).padStart(2, "0")}
+                    </span>
 
                 </div>
 
-                <div class="flower-actions">
+                <div class="flower-info">
 
-                    <div class="quantity-control">
+                    <div>
 
-                        <button type="button" class="minus">−</button>
+                        <h3>${flower.name}</h3>
 
-                        <input
-                            type="number"
-                            value="1"
-                            min="1"
-                            max="99"
-                            class="quantity-input"
-                        >
-
-                        <button type="button" class="plus">+</button>
+                        <p class="flower-price">
+                            ${formatPrice(flower.price)}
+                        </p>
 
                     </div>
 
-                    <button class="add-button" type="button">
-                        Add +
-                    </button>
+                    <div class="flower-actions">
+
+                        <div class="quantity-control">
+
+                            <button type="button" class="minus">−</button>
+
+                            <input
+                                type="number"
+                                value="1"
+                                min="1"
+                                max="99"
+                                class="quantity-input"
+                            >
+
+                            <button type="button" class="plus">+</button>
+
+                        </div>
+
+                        <button class="add-button" type="button">
+                            Add +
+                        </button>
+
+                    </div>
 
                 </div>
 
-            </div>
-
-        `;
+            `;
 
 
-        // IMAGE PREVIEW
+            // IMAGE PREVIEW
 
-        const flowerImage = card.querySelector("img");
+            const flowerImage = card.querySelector("img");
 
-        flowerImage.addEventListener("click", () => {
-
-            openImagePreview(
-                flowerImage.src,
-                flower.name
-            );
-
-        });
-
-        flowerImage.addEventListener("keydown", (event) => {
-
-            if (event.key === "Enter" || event.key === " ") {
-
-                event.preventDefault();
+            flowerImage.addEventListener("click", () => {
 
                 openImagePreview(
                     flowerImage.src,
                     flower.name
                 );
 
-            }
+            });
+
+
+            flowerImage.addEventListener("keydown", (event) => {
+
+                if (event.key === "Enter" || event.key === " ") {
+
+                    event.preventDefault();
+
+                    openImagePreview(
+                        flowerImage.src,
+                        flower.name
+                    );
+
+                }
+
+            });
+
+
+            // QUANTITY CONTROLS
+
+            const quantityInput = card.querySelector(".quantity-input");
+
+
+            card.querySelector(".minus").addEventListener("click", () => {
+
+                let quantity = parseInt(quantityInput.value) || 1;
+
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+
+            });
+
+
+            card.querySelector(".plus").addEventListener("click", () => {
+
+                let quantity = parseInt(quantityInput.value) || 1;
+
+                if (quantity < 99) {
+                    quantityInput.value = quantity + 1;
+                }
+
+            });
+
+
+            quantityInput.addEventListener("change", () => {
+
+                let quantity = parseInt(quantityInput.value);
+
+                if (isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                }
+
+                if (quantity > 99) {
+                    quantity = 99;
+                }
+
+                quantityInput.value = quantity;
+
+            });
+
+
+            // ADD TO BASKET
+
+            card.querySelector(".add-button").addEventListener("click", () => {
+
+                const quantity = parseInt(quantityInput.value) || 1;
+
+                if (flower.price === null || flower.price === undefined) {
+
+                    showToast("Price not available yet.");
+
+                    return;
+
+                }
+
+                addToBasket({
+
+                    name: flower.name,
+                    image: flower.image,
+                    price: flower.price,
+                    type: "flower"
+
+                }, quantity);
+
+            });
+
+
+            flowerGrid.appendChild(card);
 
         });
 
-
-        // QUANTITY CONTROLS
-
-        const quantityInput = card.querySelector(".quantity-input");
+    }
 
 
-        card.querySelector(".minus").addEventListener("click", () => {
+    // =====================================
+    // RENDER BOUQUETS
+    // =====================================
 
-            let quantity = parseInt(quantityInput.value) || 1;
+    function renderBouquets() {
 
-            if (quantity > 1) {
-                quantityInput.value = quantity - 1;
-            }
+        const bouquetGrid = document.getElementById("bouquet-grid");
 
-        });
-
-
-        card.querySelector(".plus").addEventListener("click", () => {
-
-            let quantity = parseInt(quantityInput.value) || 1;
-
-            if (quantity < 99) {
-                quantityInput.value = quantity + 1;
-            }
-
-        });
+        bouquetGrid.innerHTML = "";
 
 
-        quantityInput.addEventListener("change", () => {
+        bouquets.forEach((bouquet, index) => {
 
-            let quantity = parseInt(quantityInput.value);
+            const card = document.createElement("article");
 
-            if (isNaN(quantity) || quantity < 1) quantity = 1;
+            card.className = "bouquet-item";
 
-            if (quantity > 99) quantity = 99;
+            card.innerHTML = `
 
-            quantityInput.value = quantity;
+                <div class="bouquet-image-wrap">
 
-        });
+                    <img
+                        src="/static/images/bouquets/${bouquet.image}"
+                        alt="${bouquet.name}"
+                        loading="lazy"
+                        tabindex="0"
+                        role="button"
+                        aria-label="View larger image of ${bouquet.name}"
+                    >
 
-
-        // ADD TO BASKET
-
-        card.querySelector(".add-button").addEventListener("click", () => {
-
-            const quantity = parseInt(quantityInput.value) || 1;
-
-            if (flower.price === null) {
-
-                showToast("Price not available yet.");
-
-                return;
-
-            }
-
-            addToBasket({
-
-                name: flower.name,
-                image: flower.image,
-                price: flower.price,
-                type: "flower"
-
-            }, quantity);
-
-        });
-
-
-        flowerGrid.appendChild(card);
-
-    });
-
-}
-
-
-// =====================================
-// RENDER BOUQUETS
-// =====================================
-
-function renderBouquets() {
-
-    const bouquetGrid = document.getElementById("bouquet-grid");
-
-    bouquetGrid.innerHTML = "";
-
-    bouquets.forEach((bouquet, index) => {
-
-        const card = document.createElement("article");
-
-        card.className = "bouquet-item";
-
-        card.innerHTML = `
-
-            <div class="bouquet-image-wrap">
-
-                <img
-                    src="/static/images/bouquets/${bouquet.image}"
-                    alt="${bouquet.name}"
-                    loading="lazy"
-                    tabindex="0"
-                    role="button"
-                    aria-label="View larger image of ${bouquet.name}"
-                >
-
-                <span class="bouquet-number">
-                    MAISON COLLECTION / ${String(index + 1).padStart(2, "0")}
-                </span>
-
-            </div>
-
-            <div class="bouquet-info">
-
-                <div>
-
-                    <p class="bouquet-category">SIGNATURE ARRANGEMENT</p>
-
-                    <h3>${bouquet.name}</h3>
-
-                    <p class="bouquet-price">
-                        ${formatPrice(bouquet.price)}
-                    </p>
+                    <span class="bouquet-number">
+                        MAISON COLLECTION / ${String(index + 1).padStart(2, "0")}
+                    </span>
 
                 </div>
 
-                <button class="add-button" type="button">
-                    Add to Basket +
-                </button>
+                <div class="bouquet-info">
 
-            </div>
+                    <div>
 
-        `;
+                        <p class="bouquet-category">
+                            SIGNATURE ARRANGEMENT
+                        </p>
+
+                        <h3>${bouquet.name}</h3>
+
+                        <p class="bouquet-price">
+                            ${formatPrice(bouquet.price)}
+                        </p>
+
+                    </div>
+
+                    <button class="add-button" type="button">
+                        Add to Basket +
+                    </button>
+
+                </div>
+
+            `;
 
 
-        // IMAGE PREVIEW
+            // IMAGE PREVIEW
 
-        const bouquetImage = card.querySelector("img");
+            const bouquetImage = card.querySelector("img");
 
-        bouquetImage.addEventListener("click", () => {
-
-            openImagePreview(
-                bouquetImage.src,
-                bouquet.name
-            );
-
-        });
-
-        bouquetImage.addEventListener("keydown", (event) => {
-
-            if (event.key === "Enter" || event.key === " ") {
-
-                event.preventDefault();
+            bouquetImage.addEventListener("click", () => {
 
                 openImagePreview(
                     bouquetImage.src,
                     bouquet.name
                 );
 
-            }
-
-        });
+            });
 
 
-        // ADD TO BASKET
+            bouquetImage.addEventListener("keydown", (event) => {
 
-        card.querySelector(".add-button").addEventListener("click", () => {
+                if (event.key === "Enter" || event.key === " ") {
 
-            if (bouquet.price === null) {
+                    event.preventDefault();
 
-                showToast("Price not available yet.");
+                    openImagePreview(
+                        bouquetImage.src,
+                        bouquet.name
+                    );
 
-                return;
-
-            }
-
-            addToBasket({
-
-                name: bouquet.name,
-                image: bouquet.image,
-                price: bouquet.price,
-                type: "bouquet"
+                }
 
             });
 
+
+            // ADD TO BASKET
+
+            card.querySelector(".add-button").addEventListener("click", () => {
+
+                if (bouquet.price === null || bouquet.price === undefined) {
+
+                    showToast("Price not available yet.");
+
+                    return;
+
+                }
+
+                addToBasket({
+
+                    name: bouquet.name,
+                    image: bouquet.image,
+                    price: bouquet.price,
+                    type: "bouquet"
+
+                });
+
+            });
+
+
+            bouquetGrid.appendChild(card);
+
         });
 
-
-        bouquetGrid.appendChild(card);
-
-    });
-
-}
-
-
-function updateNavBasketCount() {
-
-    const countElement = document.getElementById("navBasketCount");
-
-    if (!countElement) {
-        return;
     }
 
-    let savedBasket = JSON.parse(
-        localStorage.getItem("maisonFleurBasket")
-    ) || [];
 
-    let count = 0;
+    // =====================================
+    // INITIALIZE CATALOG
+    // =====================================
 
-    savedBasket.forEach(function(item) {
-        count += Number(item.quantity) || 0;
-    });
+    renderFlowers();
 
-    countElement.textContent = count;
-}
+    renderBouquets();
 
-updateNavBasketCount();
+    updateBasketCount();
 
+    </script>
 
-
-// =====================================
-// INITIALIZE
-// =====================================
-
-renderFlowers();
-
-renderBouquets();
-
-updateBasketCount();
-
-</script>
+</body>
+</html>

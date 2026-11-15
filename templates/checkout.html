@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | Maison Fleur</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checkout.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="checkout-nav">
+        <a href="{{ url_for('home') }}" class="brand">MAISON FLEUR</a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('catalog') }}">Flowers</a>
+            <a href="{{ url_for('basket') }}">Basket</a>
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="checkout-hero">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <p class="eyebrow">MAISON FLEUR · YOUR ORDER</p>
+
+            <h1>Almost <em>Yours.</em></h1>
+
+            <p class="hero-description">
+                A little beauty is on its way.
+                Complete your details to bring your flowers home.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- CHECKOUT SECTION -->
+    <main class="checkout-container">
+
+        <div class="checkout-heading">
+            <p class="eyebrow">THE FINAL TOUCH</p>
+            <h2>Complete Your Order</h2>
+            <p>Please provide your delivery details below.</p>
+        </div>
+
+
+        <div class="checkout-layout">
+
+            <!-- DELIVERY INFORMATION -->
+            <section class="delivery-section">
+
+                <div class="section-title">
+                    <span>01</span>
+                    <h3>Delivery Information</h3>
+                </div>
+
+                <form action="/place-order" method="POST" id="checkoutForm">
+
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input
+                            type="text"
+                            id="fullname"
+                            name="fullname"
+                            value="{{ user.fullname }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ user.email }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                value="{{ user.phone }}"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="delivery_address">Delivery Address</label>
+                        <textarea
+                            id="delivery_address"
+                            name="delivery_address"
+                            rows="4"
+                            placeholder="House number, street, area, city..."
+                            required
+                        ></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="delivery_notes">
+                            Delivery Instructions
+                            <span class="optional">(Optional)</span>
+                        </label>
+
+                        <textarea
+                            id="delivery_notes"
+                            name="delivery_notes"
+                            rows="3"
+                            placeholder="Any special instructions for delivery?"
+                        ></textarea>
+                    </div>
+
+
+                    <div class="payment-section">
+
+                        <div class="section-title">
+                            <span>02</span>
+                            <h3>Payment Method</h3>
+                        </div>
+
+                        <div class="payment-option">
+                            <div>
+                                <strong>Cash on Delivery</strong>
+                                <p>Pay when your flowers arrive.</p>
+                            </div>
+
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="Cash on Delivery"
+                                checked
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="place-order-btn">
+                        Place Your Order
+                        <span>→</span>
+                    </button>
+
+                    <a href="{{ url_for('basket') }}" class="back-link">
+                        ← Return to Basket
+                    </a>
+
+                </form>
+
+            </section>
+
+
+            <!-- ORDER SUMMARY -->
+            <aside class="order-summary">
+
+                <div class="summary-header">
+                    <p class="eyebrow">A LITTLE SOMETHING BEAUTIFUL</p>
+                    <h3>Your Order</h3>
+                </div>
+
+
+                <div class="summary-items">
+
+                    {% for item in cart_items %}
+
+                    <div class="summary-item">
+
+                        <div class="item-image">
+                            {% if item.product_type == 'flower' %}
+                                <img
+                                    src="{{ url_for('static', filename='images/flowers/' + item.product_image) }}"
+                                    alt="{{ item.product_name }}"
+                                >
+                            {% else %}
+                                <img
+                                    src="{{ url_for('static', filename='images/bouquets/' + item.product_image) }}"
+                                    alt="{{ item.product_name }}"
+                                >
+                            {% endif %}
+                        </div>
+
+                        <div class="item-details">
+                            <h4>{{ item.product_name }}</h4>
+                            <p>Quantity: {{ item.product_quantity }}</p>
+                        </div>
+
+                        <div class="item-price">
+                            BDT {{ "%.2f"|format(item.product_price|float * item.product_quantity|int) }}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="summary-calculation">
+
+                    <div class="calculation-row">
+                        <span>Subtotal</span>
+                        <span>BDT {{ "%.2f"|format(subtotal|float) }}</span>
+                    </div>
+
+                    <div class="calculation-row">
+                        <span>Delivery Fee</span>
+                        <span>BDT {{ "%.2f"|format(delivery_fee|float) }}</span>
+                    </div>
+
+                    <div class="total-row">
+                        <span>Total</span>
+                        <strong>BDT {{ "%.2f"|format(total_amount|float) }}</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-note">
+                    <span>✦</span>
+                    <p>Every Maison Fleur order is prepared with care and attention to detail.</p>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="checkout-footer">
+        <p>MAISON FLEUR</p>
+        <span>Flowers, thoughtfully arranged.</span>
+    </footer>
+
+</body>
+</html>

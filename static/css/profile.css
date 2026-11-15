@@ -488,3 +488,248 @@ a {
     }
 
 }
+
+/* =====================================
+   ORDER HISTORY — MAISON FLEUR
+===================================== */
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+
+/* ORDER CARD */
+
+.order-card {
+    background: #22372D;
+    border: 1px solid rgba(220, 220, 210, 0.14);
+    padding: 35px 40px;
+    transition: border-color 0.3s ease;
+}
+
+.order-card:hover {
+    border-color: rgba(197, 139, 159, 0.45);
+}
+
+
+/* ORDER HEADER */
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(230, 220, 220, 0.15);
+}
+
+.order-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #C58B9F;
+}
+
+.order-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 29px;
+    font-weight: 500;
+    margin-top: 6px;
+}
+
+
+/* ORDER STATUS */
+
+.order-status {
+    padding: 8px 15px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid;
+}
+
+.order-status.pending {
+    color: #E8C99A;
+    border-color: rgba(232, 201, 154, 0.4);
+    background: rgba(232, 201, 154, 0.08);
+}
+
+.order-status.processing {
+    color: #C5B5E0;
+    border-color: rgba(197, 181, 224, 0.4);
+    background: rgba(197, 181, 224, 0.08);
+}
+
+.order-status.shipped {
+    color: #A9C8D8;
+    border-color: rgba(169, 200, 216, 0.4);
+    background: rgba(169, 200, 216, 0.08);
+}
+
+.order-status.delivered {
+    color: #B9D9BD;
+    border-color: rgba(185, 217, 189, 0.4);
+    background: rgba(185, 217, 189, 0.08);
+}
+
+.order-status.cancelled {
+    color: #E6AAB5;
+    border-color: rgba(230, 170, 181, 0.4);
+    background: rgba(230, 170, 181, 0.08);
+}
+
+
+/* ORDER INFORMATION */
+
+.order-information {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    padding: 23px 0;
+
+    border-bottom: 1px solid rgba(230, 220, 220, 0.12);
+}
+
+.order-information p {
+    font-size: 11px;
+    line-height: 1.8;
+    color: #F0E7E9;
+}
+
+.order-information span {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: #C58B9F;
+    margin-bottom: 5px;
+}
+
+
+/* ORDER PRODUCTS */
+
+.order-products {
+    padding: 10px 0;
+}
+
+.order-product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 17px 0;
+
+    border-bottom: 1px solid rgba(230, 220, 220, 0.10);
+}
+
+.order-product-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.order-product-info img {
+    width: 65px;
+    height: 75px;
+    object-fit: cover;
+}
+
+.order-product-info h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #F0E6E9;
+}
+
+.order-product-info p {
+    font-size: 10px;
+    color: #B9B2B5;
+    margin-top: 6px;
+}
+
+.order-product > strong {
+    font-size: 11px;
+    font-weight: 400;
+    color: #D7A7B7;
+    white-space: nowrap;
+}
+
+
+/* ORDER TOTAL */
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-top: 22px;
+    margin-top: 5px;
+
+    border-top: 1px solid rgba(230, 220, 220, 0.15);
+}
+
+.order-footer span {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #C4B9BC;
+}
+
+.order-footer strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 25px;
+    font-weight: 500;
+    color: #D7A7B7;
+}
+
+
+/* RESPONSIVE ORDER HISTORY */
+
+@media (max-width: 600px) {
+
+    .order-card {
+        padding: 25px 18px;
+    }
+
+    .order-header {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .order-header h3 {
+        font-size: 25px;
+    }
+
+    .order-status {
+        font-size: 8px;
+        padding: 7px 9px;
+    }
+
+    .order-information {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .order-product-info {
+        gap: 12px;
+    }
+
+    .order-product-info img {
+        width: 52px;
+        height: 62px;
+    }
+
+    .order-product-info h4 {
+        font-size: 17px;
+    }
+
+    .order-product > strong {
+        font-size: 10px;
+    }
+
+    .order-footer strong {
+        font-size: 21px;
+    }
+
+}
