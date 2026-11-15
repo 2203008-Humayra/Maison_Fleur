@@ -167,28 +167,134 @@
 
 
         <!-- ORDERS SECTION -->
-        <section class="orders-section" id="orders">
 
-            <p class="eyebrow">YOUR PURCHASES</p>
+<section class="orders-section" id="orders">
 
-            <h2>Order History</h2>
+    <p class="eyebrow">YOUR PURCHASES</p>
 
-            <div class="empty-orders">
+    <h2>Order History</h2>
 
-                <h3>Your story with flowers begins here.</h3>
+    {% if orders %}
 
-                <p>
-                    Your completed purchases will appear here.
-                    There are no orders to display yet.
-                </p>
+        <div class="orders-container">
 
-                <a href="{{ url_for('catalog') }}">
-                    DISCOVER OUR COLLECTION
-                </a>
+            {% for order in orders %}
 
-            </div>
+                <div class="order-card">
 
-        </section>
+                    <!-- ORDER HEADER -->
+
+                    <div class="order-header">
+
+                        <div>
+                            <span class="order-label">ORDER NUMBER</span>
+                            <h3>#{{ order.id }}</h3>
+                        </div>
+
+                        <span class="order-status {{ order.order_status|lower|replace(' ', '-') }}">
+                            {{ order.order_status }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- ORDER DATE -->
+
+                    <div class="order-information">
+
+                        <p>
+                            <span>Placed on</span>
+
+                            {{ order.created_at.strftime('%d %B %Y, %I:%M %p') }}
+                        </p>
+
+                        <p>
+                            <span>Estimated delivery</span>
+
+                            {% if order.estimated_delivery %}
+                                {{ order.estimated_delivery.strftime('%d %B %Y, %I:%M %p') }}
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </p>
+
+                    </div>
+
+
+                    <!-- ORDER PRODUCTS -->
+
+                    <div class="order-products">
+
+                        {% for item in order["items"] %}
+
+                            <div class="order-product">
+
+                                <div class="order-product-info">
+
+                                    <img
+                                        src="{{ url_for('static', filename='images/' + ('flowers/' if item.product_type == 'flower' else 'bouquets/') + item.product_image) }}"
+                                        alt="{{ item.product_name }}"
+                                    >
+
+                                    <div>
+                                        <h4>{{ item.product_name }}</h4>
+
+                                        <p>
+                                            Quantity: {{ item.product_quantity }}
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <strong>
+                                    BDT {{ "%.2f"|format(item.product_price|float * item.product_quantity|int) }}
+                                </strong>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- ORDER TOTAL -->
+
+                    <div class="order-footer">
+
+                        <span>Total Amount</span>
+
+                        <strong>
+                            BDT {{ "%.2f"|format(order.total_amount|float) }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-orders">
+
+            <h3>Your story with flowers begins here.</h3>
+
+            <p>
+                Your purchases will appear here once you place
+                your first order.
+            </p>
+
+            <a href="{{ url_for('catalog') }}">
+                DISCOVER OUR COLLECTION
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
 
     </main>
 

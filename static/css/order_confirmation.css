@@ -1,0 +1,260 @@
+/* =====================================
+   MAISON FLEUR — ORDER CONFIRMATION
+   Floral Glassmorphism
+===================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(20, 15, 22, 0.38),
+            rgba(20, 15, 22, 0.58)
+        ),
+        url("../images/backgrounds/order-confirmation-bg.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* NAVIGATION */
+
+.checkout-nav {
+    background: rgba(25, 20, 26, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* MAIN CONTAINER */
+
+.confirmation-container {
+    width: 90%;
+    max-width: 850px;
+
+    margin: 70px auto;
+    padding-bottom: 50px;
+
+    text-align: center;
+}
+
+
+/* GLASS BOX */
+
+.confirmation-box {
+    padding: 55px 45px;
+
+    background: rgba(35, 27, 36, 0.48);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.28);
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.25),
+        inset 0 0 30px rgba(255, 255, 255, 0.035);
+
+    color: #F5ECEF;
+}
+
+
+/* CONFIRMATION ICON */
+
+.confirmation-icon {
+    font-size: 42px;
+    color: #E5B8C7;
+    margin-bottom: 18px;
+}
+
+
+/* HEADING */
+
+.confirmation-box h1 {
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 58px;
+    font-weight: 500;
+
+    color: #F5E8ED;
+
+    margin: 0 0 15px;
+}
+
+
+/* DESCRIPTION */
+
+.confirmation-box > p {
+    color: #E5D9DE;
+
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+
+/* ORDER NUMBER */
+
+.order-number {
+    margin: 25px 0;
+
+    color: #E9B8CA !important;
+
+    letter-spacing: 3px;
+    font-size: 13px !important;
+}
+
+
+/* ORDER ITEMS */
+
+.confirmation-items {
+    margin-top: 35px;
+    text-align: left;
+}
+
+.confirmation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+
+    color: #F2E9ED;
+    font-size: 14px;
+}
+
+
+/* TOTAL */
+
+.confirmation-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 28px;
+
+    color: #E9B8CA;
+    font-size: 17px;
+}
+
+.confirmation-total strong {
+    font-size: 20px;
+}
+
+
+/* BUTTON */
+
+.confirmation-button {
+    display: inline-block;
+
+    margin-top: 38px;
+    padding: 15px 32px;
+
+    background: rgba(139, 85, 107, 0.85);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    color: #FFFFFF;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    transition: 0.3s ease;
+}
+
+.confirmation-button:hover {
+    background: #A36C83;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+
+    .confirmation-container {
+        width: 92%;
+        margin: 40px auto;
+    }
+
+    .confirmation-box {
+        padding: 40px 22px;
+    }
+
+    .confirmation-box h1 {
+        font-size: 43px;
+    }
+
+    .confirmation-item {
+        font-size: 12px;
+    }
+
+    .confirmation-total {
+        font-size: 14px;
+    }
+
+    .confirmation-total strong {
+        font-size: 16px;
+    }
+
+}
+
+/* DELIVERY ESTIMATE */
+
+.delivery-estimate {
+    margin: 30px auto 15px;
+    padding: 22px 20px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(233, 184, 202, 0.35);
+
+    text-align: center;
+}
+
+.delivery-estimate h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 25px;
+    font-weight: 500;
+    color: #E9B8CA;
+    margin-bottom: 12px;
+}
+
+.delivery-estimate p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #E5D9DE;
+}
+
+.delivery-estimate strong {
+    display: block;
+    margin: 15px 0;
+    font-size: 19px;
+    color: #F5E8ED;
+    letter-spacing: 1px;
+}
+
+.delivery-estimate .delivery-note {
+    font-size: 12px;
+    margin-bottom: 0;
+}

@@ -522,14 +522,11 @@ async function removeItem(itemId) {
 document.getElementById("checkoutButton").addEventListener("click", function() {
 
     if (basket.length === 0) {
-
         alert("Your basket is empty.");
-
         return;
-
     }
 
-    alert("Checkout will be available soon.");
+    window.location.href = "{{ url_for('checkout') }}";
 
 });
 
