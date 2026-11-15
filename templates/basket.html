@@ -128,266 +128,419 @@
 
     <script>
 
-        // LOAD BASKET
+// =====================================
+// BASKET DATA
+// =====================================
 
-        let basket = [];
+let basket = [];
 
-        try {
-            basket = JSON.parse(
-                localStorage.getItem("maisonFleurBasket")
-            ) || [];
 
-            if (!Array.isArray(basket)) {
-                basket = [];
-            }
+// =====================================
+// FORMAT PRICE
+// =====================================
 
-        } catch (error) {
-            basket = [];
+function formatPrice(price) {
+
+    return "BDT " + Number(price).toLocaleString("en-IN");
+
+}
+
+
+// =====================================
+// LOAD BASKET FROM MYSQL
+// =====================================
+
+async function loadBasket() {
+
+    const container = document.getElementById("basketProducts");
+
+    container.innerHTML = "<p>Loading your basket...</p>";
+
+    try {
+
+        const response = await fetch("/api/cart");
+
+        if (response.status === 401) {
+            window.location.href = "{{ url_for('login') }}";
+            return;
         }
 
-
-        // FORMAT PRICE
-
-        function formatPrice(price) {
-            return "BDT " + Number(price).toLocaleString("en-IN");
+        if (!response.ok) {
+            throw new Error("Unable to load basket.");
         }
 
+        const result = await response.json();
 
-        // DISPLAY BASKET
-
-        function displayBasket() {
-
-            const container = document.getElementById("basketProducts");
-
-            container.innerHTML = "";
-
-            let subtotal = 0;
-            let totalItems = 0;
-
-            if (basket.length === 0) {
-
-                const emptyMessage = document.createElement("div");
-
-                emptyMessage.className = "empty-basket";
-
-                const heading = document.createElement("h3");
-                heading.textContent = "Your basket is waiting to bloom.";
-
-                const paragraph = document.createElement("p");
-                paragraph.textContent = "Explore our flowers and signature bouquets to find something beautiful.";
-
-                const link = document.createElement("a");
-                link.href = "{{ url_for('catalog') }}";
-                link.textContent = "Explore the Collection";
-
-                emptyMessage.appendChild(heading);
-                emptyMessage.appendChild(paragraph);
-                emptyMessage.appendChild(link);
-
-                container.appendChild(emptyMessage);
-
-            }
-
-
-            for (let i = 0; i < basket.length; i++) {
-
-                const item = basket[i];
-
-                const quantity = Number(item.quantity) || 1;
-                const price = Number(item.price) || 0;
-
-                subtotal += price * quantity;
-                totalItems += quantity;
-
-
-                // PRODUCT CONTAINER
-
-                const product = document.createElement("div");
-                product.className = "basket-item";
-
-
-                // PRODUCT IMAGE
-
-                const image = document.createElement("img");
-
-                let folder = "flowers";
-
-                if (item.type === "bouquet") {
-                    folder = "bouquets";
-                }
-
-                image.src = "/static/images/" + folder + "/" + item.image;
-                image.alt = item.name;
-                image.className = "product-image";
-
-
-                // PRODUCT DETAILS
-
-                const details = document.createElement("div");
-                details.className = "product-details";
-
-                const type = document.createElement("p");
-
-                if (item.type === "bouquet") {
-                    type.textContent = "SIGNATURE BOUQUET";
-                } else {
-                    type.textContent = "INDIVIDUAL FLOWER";
-                }
-
-                type.className = "product-type";
-
-                const name = document.createElement("h3");
-                name.textContent = item.name;
-
-                const priceText = document.createElement("p");
-                priceText.textContent = formatPrice(price);
-
-                const quantityControl = document.createElement("div");
-                quantityControl.className = "quantity-control";
-
-
-                // DECREASE BUTTON
-
-                const decrease = document.createElement("button");
-                decrease.textContent = "-";
-
-                decrease.addEventListener("click", function() {
-                    changeQuantity(i, -1);
-                });
-
-
-                // QUANTITY
-
-                const quantityText = document.createElement("span");
-                quantityText.textContent = quantity;
-
-
-                // INCREASE BUTTON
-
-                const increase = document.createElement("button");
-                increase.textContent = "+";
-
-                increase.addEventListener("click", function() {
-                    changeQuantity(i, 1);
-                });
-
-
-                quantityControl.appendChild(decrease);
-                quantityControl.appendChild(quantityText);
-                quantityControl.appendChild(increase);
-
-
-                // REMOVE BUTTON
-
-                const remove = document.createElement("button");
-
-                remove.textContent = "Remove";
-                remove.className = "remove-button";
-
-                remove.addEventListener("click", function() {
-                    removeItem(i);
-                });
-
-
-                // ADD DETAILS
-
-                details.appendChild(type);
-                details.appendChild(name);
-                details.appendChild(priceText);
-                details.appendChild(quantityControl);
-
-
-                // ITEM TOTAL
-
-                const itemTotal = document.createElement("div");
-                itemTotal.className = "item-total";
-
-                itemTotal.textContent = formatPrice(price * quantity);
-
-                itemTotal.appendChild(remove);
-
-
-                // ADD EVERYTHING
-
-                product.appendChild(image);
-                product.appendChild(details);
-                product.appendChild(itemTotal);
-
-                container.appendChild(product);
-
-            }
-
-
-            // UPDATE SUMMARY
-
-            document.getElementById("itemCount").textContent =
-                totalItems + (totalItems === 1 ? " ITEM" : " ITEMS");
-
-            document.getElementById("summaryItems").textContent = totalItems;
-
-            document.getElementById("subtotal").textContent =
-                formatPrice(subtotal);
-
-            document.getElementById("total").textContent =
-                formatPrice(subtotal);
-
-
-            // SAVE BASKET
-
-            localStorage.setItem(
-                "maisonFleurBasket",
-                JSON.stringify(basket)
-            );
-
+        if (!result.success) {
+            throw new Error(result.message || "Unable to load basket.");
         }
 
+        basket = result.items || [];
 
-        // CHANGE QUANTITY
+        displayBasket();
 
-        function changeQuantity(index, amount) {
+    } catch (error) {
 
-            basket[index].quantity =
-                Number(basket[index].quantity) + amount;
+        console.error("Basket loading error:", error);
 
-            if (basket[index].quantity <= 0) {
-                basket.splice(index, 1);
-            }
+        container.innerHTML =
+            "<p>Unable to load your basket. Please refresh the page.</p>";
 
-            displayBasket();
+    }
 
+}
+
+
+// =====================================
+// DISPLAY BASKET
+// =====================================
+
+function displayBasket() {
+
+    const container = document.getElementById("basketProducts");
+
+    container.innerHTML = "";
+
+    let subtotal = 0;
+    let totalItems = 0;
+
+
+    // EMPTY BASKET
+
+    if (basket.length === 0) {
+
+        const emptyMessage = document.createElement("div");
+
+        emptyMessage.className = "empty-basket";
+
+        const heading = document.createElement("h3");
+
+        heading.textContent = "Your basket is waiting to bloom.";
+
+        const paragraph = document.createElement("p");
+
+        paragraph.textContent =
+            "Explore our flowers and signature bouquets to find something beautiful.";
+
+        const link = document.createElement("a");
+
+        link.href = "{{ url_for('catalog') }}";
+
+        link.textContent = "Explore the Collection";
+
+        emptyMessage.appendChild(heading);
+        emptyMessage.appendChild(paragraph);
+        emptyMessage.appendChild(link);
+
+        container.appendChild(emptyMessage);
+
+    }
+
+
+    // DISPLAY EACH PRODUCT
+
+    for (let i = 0; i < basket.length; i++) {
+
+        const item = basket[i];
+
+        const quantity = Number(item.product_quantity) || 1;
+
+        const price = Number(item.product_price) || 0;
+
+        const itemId = item.id;
+
+        subtotal += price * quantity;
+
+        totalItems += quantity;
+
+
+        // PRODUCT CONTAINER
+
+        const product = document.createElement("div");
+
+        product.className = "basket-item";
+
+
+        // PRODUCT IMAGE
+
+        const image = document.createElement("img");
+
+        let folder = "flowers";
+
+        if (item.product_type === "bouquet") {
+            folder = "bouquets";
         }
 
+        image.src = "/static/images/" + folder + "/" + item.product_image;
 
-        // REMOVE ITEM
+        image.alt = item.product_name;
 
-        function removeItem(index) {
+        image.className = "product-image";
 
-            basket.splice(index, 1);
 
-            displayBasket();
+        // PRODUCT DETAILS
 
+        const details = document.createElement("div");
+
+        details.className = "product-details";
+
+
+        const type = document.createElement("p");
+
+        if (item.product_type === "bouquet") {
+            type.textContent = "SIGNATURE BOUQUET";
+        } else {
+            type.textContent = "INDIVIDUAL FLOWER";
         }
 
+        type.className = "product-type";
 
-        // CHECKOUT
 
-        document.getElementById("checkoutButton").addEventListener("click", function() {
+        const name = document.createElement("h3");
 
-            if (basket.length === 0) {
-                alert("Your basket is empty.");
-                return;
-            }
+        name.textContent = item.product_name;
 
-            alert("Checkout will be available soon.");
+
+        const priceText = document.createElement("p");
+
+        priceText.textContent = formatPrice(price);
+
+
+        // QUANTITY CONTROLS
+
+        const quantityControl = document.createElement("div");
+
+        quantityControl.className = "quantity-control";
+
+
+        // DECREASE BUTTON
+
+        const decrease = document.createElement("button");
+
+        decrease.type = "button";
+
+        decrease.textContent = "-";
+
+        decrease.addEventListener("click", function() {
+
+            changeQuantity(itemId, quantity - 1);
 
         });
 
 
-        // INITIAL DISPLAY
+        // QUANTITY DISPLAY
 
-        displayBasket();
+        const quantityText = document.createElement("span");
 
-    </script>
+        quantityText.textContent = quantity;
+
+
+        // INCREASE BUTTON
+
+        const increase = document.createElement("button");
+
+        increase.type = "button";
+
+        increase.textContent = "+";
+
+        increase.addEventListener("click", function() {
+
+            changeQuantity(itemId, quantity + 1);
+
+        });
+
+
+        quantityControl.appendChild(decrease);
+
+        quantityControl.appendChild(quantityText);
+
+        quantityControl.appendChild(increase);
+
+
+        // ADD DETAILS
+
+        details.appendChild(type);
+
+        details.appendChild(name);
+
+        details.appendChild(priceText);
+
+        details.appendChild(quantityControl);
+
+
+        // ITEM TOTAL
+
+        const itemTotal = document.createElement("div");
+
+        itemTotal.className = "item-total";
+
+        itemTotal.textContent = formatPrice(price * quantity);
+
+
+        // REMOVE BUTTON
+
+        const remove = document.createElement("button");
+
+        remove.type = "button";
+
+        remove.textContent = "Remove";
+
+        remove.className = "remove-button";
+
+        remove.addEventListener("click", function() {
+
+            removeItem(itemId);
+
+        });
+
+        itemTotal.appendChild(remove);
+
+
+        // ADD EVERYTHING
+
+        product.appendChild(image);
+
+        product.appendChild(details);
+
+        product.appendChild(itemTotal);
+
+        container.appendChild(product);
+
+    }
+
+
+    // UPDATE SUMMARY
+
+    document.getElementById("itemCount").textContent =
+        totalItems + (totalItems === 1 ? " ITEM" : " ITEMS");
+
+    document.getElementById("summaryItems").textContent = totalItems;
+
+    document.getElementById("subtotal").textContent =
+        formatPrice(subtotal);
+
+    document.getElementById("total").textContent =
+        formatPrice(subtotal);
+
+}
+
+
+// =====================================
+// CHANGE PRODUCT QUANTITY
+// =====================================
+
+async function changeQuantity(itemId, newQuantity) {
+
+    try {
+
+        if (newQuantity <= 0) {
+
+            await removeItem(itemId);
+
+            return;
+
+        }
+
+        const response = await fetch("/api/cart/" + itemId, {
+
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                quantity: newQuantity
+            })
+
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            alert(result.message || "Unable to update quantity.");
+
+            return;
+
+        }
+
+        await loadBasket();
+
+    } catch (error) {
+
+        console.error("Quantity update error:", error);
+
+        alert("Something went wrong while updating quantity.");
+
+    }
+
+}
+
+
+// =====================================
+// REMOVE PRODUCT
+// =====================================
+
+async function removeItem(itemId) {
+
+    try {
+
+        const response = await fetch("/api/cart/" + itemId, {
+
+            method: "DELETE"
+
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            alert(result.message || "Unable to remove item.");
+
+            return;
+
+        }
+
+        await loadBasket();
+
+    } catch (error) {
+
+        console.error("Remove item error:", error);
+
+        alert("Something went wrong while removing the item.");
+
+    }
+
+}
+
+
+// =====================================
+// CHECKOUT
+// =====================================
+
+document.getElementById("checkoutButton").addEventListener("click", function() {
+
+    if (basket.length === 0) {
+
+        alert("Your basket is empty.");
+
+        return;
+
+    }
+
+    alert("Checkout will be available soon.");
+
+});
+
+
+// =====================================
+// INITIALIZE
+// =====================================
+
+loadBasket();
+
+</script>
 
 </body>
 
