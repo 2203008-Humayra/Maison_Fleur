@@ -2,7 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.security import generate_password_hash, check_password_hash
+from database.db import get_db_connection
 
+from flask import jsonify
+from database.cart import (
+    add_to_cart,
+    get_cart_items,
+    update_cart_quantity,
+    remove_from_cart
+)
 
 # =====================================
 # FLASK CONFIGURATION
@@ -62,11 +70,194 @@ def basket():
 
 
 # =====================================
+# GET CUSTOMER BASKET
+# =====================================
+
+@app.route("/api/cart", methods=["GET"])
+def api_get_cart():
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please sign in."
+        }), 401
+
+    items = get_cart_items(session["user_id"])
+
+    if items is None:
+        return jsonify({
+            "success": False,
+            "message": "Unable to load basket."
+        }), 500
+
+    return jsonify({
+        "success": True,
+        "items": items
+    })
+
+
+# =====================================
+# ADD PRODUCT TO BASKET
+# =====================================
+
+@app.route("/api/cart", methods=["POST"])
+def api_add_to_cart():
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please sign in."
+        }), 401
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({
+            "success": False,
+            "message": "Invalid product information."
+        }), 400
+
+    name = data.get("name")
+    image = data.get("image")
+    product_type = data.get("type")
+
+    try:
+        price = float(data.get("price"))
+        quantity = int(data.get("quantity", 1))
+    except (TypeError, ValueError):
+        return jsonify({
+            "success": False,
+            "message": "Invalid price or quantity."
+        }), 400
+
+    if (
+        not isinstance(name, str) or not name.strip()
+        or not isinstance(image, str) or not image.strip()
+        or product_type not in ["flower", "bouquet"]
+        or price <= 0
+        or quantity < 1
+    ):
+        return jsonify({
+            "success": False,
+            "message": "Invalid product information."
+        }), 400
+
+    product = {
+        "name": name.strip(),
+        "image": image.strip(),
+        "price": price,
+        "quantity": quantity,
+        "type": product_type
+    }
+
+    success = add_to_cart(session["user_id"], product)
+
+    if not success:
+        return jsonify({
+            "success": False,
+            "message": "Unable to add product."
+        }), 500
+
+    return jsonify({
+        "success": True,
+        "message": "Product added to basket."
+    })
+
+
+# =====================================
+# UPDATE BASKET QUANTITY
+# =====================================
+
+@app.route("/api/cart/<int:item_id>", methods=["PUT"])
+def api_update_cart(item_id):
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please sign in."
+        }), 401
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({
+            "success": False,
+            "message": "Invalid request."
+        }), 400
+
+    try:
+        quantity = int(data.get("quantity"))
+    except (TypeError, ValueError):
+        return jsonify({
+            "success": False,
+            "message": "Invalid quantity."
+        }), 400
+
+    if quantity < 0:
+        return jsonify({
+            "success": False,
+            "message": "Invalid quantity."
+        }), 400
+
+    success = update_cart_quantity(
+        session["user_id"],
+        item_id,
+        quantity
+    )
+
+    if not success:
+        return jsonify({
+            "success": False,
+            "message": "Unable to update basket."
+        }), 400
+
+    return jsonify({
+        "success": True,
+        "message": "Basket updated."
+    })
+
+
+# =====================================
+# REMOVE PRODUCT FROM BASKET
+# =====================================
+
+@app.route("/api/cart/<int:item_id>", methods=["DELETE"])
+def api_remove_from_cart(item_id):
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please sign in."
+        }), 401
+
+    success = remove_from_cart(
+        session["user_id"],
+        item_id
+    )
+
+    if not success:
+        return jsonify({
+            "success": False,
+            "message": "Unable to remove product."
+        }), 400
+
+    return jsonify({
+        "success": True,
+        "message": "Product removed."
+    })
+
+
+
+# =====================================
 # LOGIN PAGE
 # =====================================
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
+    if "user_id" in session:
+        flash("You are already logged in!", "success")
+        return redirect(url_for("profile"))
 
     if request.method == "POST":
 
@@ -104,7 +295,7 @@ def login():
 
                 flash("Login successful!", "success")
 
-                return redirect(url_for("home"))
+                return redirect(url_for("profile"))
 
             else:
                 flash("Invalid email or password.", "error")
@@ -124,12 +315,50 @@ def login():
 
 @app.route("/profile")
 def profile():
-
     if "user_id" not in session:
         flash("Please sign in to access your profile.", "error")
         return redirect(url_for("login"))
 
-    return render_template("profile.html")
+    connection = get_db_connection()
+
+    if connection is None:
+        flash("Unable to connect to the database.", "error")
+        return redirect(url_for("home"))
+
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        cursor.execute(
+            "SELECT fullname, email, phone FROM users WHERE id = %s",
+            (session["user_id"],)
+        )
+
+        user = cursor.fetchone()
+
+        if user is None:
+            session.clear()
+            flash("Please sign in again.", "error")
+            return redirect(url_for("login"))
+
+        return render_template("profile.html", user=user)
+
+    except Error as e:
+        print("Profile error:", e)
+        flash("Unable to load your profile.", "error")
+        return redirect(url_for("home"))
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have signed out successfully.", "success")
+    return redirect(url_for("home"))
+
 
 
 # =====================================

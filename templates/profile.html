@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | Maison Fleur</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="navbar">
+
+        <a href="{{ url_for('home') }}" class="logo">
+            Maison Fleur<span>.</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('catalog') }}">Flowers</a>
+            <a href="{{ url_for('basket') }}">Basket</a>
+        </nav>
+
+        <a href="{{ url_for('logout') }}" class="signout-link">
+            Sign Out
+        </a>
+
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section class="profile-hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">WELCOME TO MAISON FLEUR</p>
+
+            <h1>A Little Space<br>of Your Own.</h1>
+
+            <p class="hero-description">
+                A place for your favourite blooms, beautiful moments
+                and everything you love.
+            </p>
+
+            <a href="{{ url_for('catalog') }}" class="explore-button">
+                EXPLORE THE COLLECTION
+            </a>
+
+        </div>
+
+        <div class="hero-caption">
+            <span>THE BEAUTY OF FLOWERS,</span>
+            <span>THE ART OF LIVING.</span>
+        </div>
+
+    </section>
+
+
+    <!-- PROFILE CONTENT -->
+    <main class="profile-section">
+
+        <div class="section-heading">
+
+            <div>
+                <p class="eyebrow">YOUR PERSONAL SPACE</p>
+                <h2>Account Overview</h2>
+            </div>
+
+            <span class="member-label">MAISON FLEUR MEMBER</span>
+
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+
+        <div class="profile-layout">
+
+            <!-- PERSONAL INFORMATION -->
+            <section class="profile-card">
+
+                <div class="card-heading">
+                    <p class="eyebrow">PERSONAL DETAILS</p>
+                    <span class="decorative-line"></span>
+                </div>
+
+                <h3>Your Information</h3>
+
+                <div class="detail-item">
+                    <span>FULL NAME</span>
+                    <p>{{ user.fullname }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span>EMAIL ADDRESS</span>
+                    <p>{{ user.email }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span>PHONE NUMBER</span>
+                    <p>{{ user.phone }}</p>
+                </div>
+
+                <p class="profile-note">
+                    Your personal details are kept safely within your account.
+                </p>
+
+            </section>
+
+
+            <!-- ACCOUNT NAVIGATION -->
+            <section class="account-menu">
+
+                <p class="eyebrow">YOUR MAISON FLEUR</p>
+
+                <h3>Explore Your Account</h3>
+
+                <a href="{{ url_for('basket') }}" class="menu-item">
+                    <div>
+                        <span class="menu-number">01</span>
+                        <span class="menu-title">My Basket</span>
+                        <p>Discover the flowers you've selected.</p>
+                    </div>
+                    <span class="menu-arrow">↗</span>
+                </a>
+
+
+                <a href="#orders" class="menu-item">
+                    <div>
+                        <span class="menu-number">02</span>
+                        <span class="menu-title">My Orders</span>
+                        <p>Keep track of your floral purchases.</p>
+                    </div>
+                    <span class="menu-arrow">↗</span>
+                </a>
+
+
+                <a href="{{ url_for('catalog') }}" class="menu-item">
+                    <div>
+                        <span class="menu-number">03</span>
+                        <span class="menu-title">Explore Flowers</span>
+                        <p>Find something beautiful for yourself.</p>
+                    </div>
+                    <span class="menu-arrow">↗</span>
+                </a>
+
+            </section>
+
+        </div>
+
+
+        <!-- ORDERS SECTION -->
+        <section class="orders-section" id="orders">
+
+            <p class="eyebrow">YOUR PURCHASES</p>
+
+            <h2>Order History</h2>
+
+            <div class="empty-orders">
+
+                <h3>Your story with flowers begins here.</h3>
+
+                <p>
+                    Your completed purchases will appear here.
+                    There are no orders to display yet.
+                </p>
+
+                <a href="{{ url_for('catalog') }}">
+                    DISCOVER OUR COLLECTION
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <a href="{{ url_for('home') }}" class="footer-logo">
+            Maison Fleur<span>.</span>
+        </a>
+
+        <p>Made with petals, patience and poetry.</p>
+
+        <span>© 2026 Maison Fleur. All rights reserved.</span>
+
+    </footer>
+
+</body>
+</html>
