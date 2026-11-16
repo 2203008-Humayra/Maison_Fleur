@@ -6,6 +6,8 @@ from database.db import get_db_connection
 from database.cart import get_cart_items
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
+from design_patterns import ProductFactory
+from design_patterns import login_required, order_status_subject
 
 
 
@@ -148,6 +150,7 @@ def catalog():
         """)
 
         flowers = cursor.fetchall()
+
         for flower in flowers:
             flower["price"] = float(flower["price"])
 
@@ -161,8 +164,26 @@ def catalog():
         """)
 
         bouquets = cursor.fetchall()
+
         for bouquet in bouquets:
             bouquet["price"] = float(bouquet["price"])
+
+        # FACTORY METHOD: CREATE PRODUCT OBJECTS
+        flowers = [
+            ProductFactory.create_product({
+                **flower,
+                "product_type": "flower"
+            })
+            for flower in flowers
+        ]
+
+        bouquets = [
+            ProductFactory.create_product({
+                **bouquet,
+                "product_type": "bouquet"
+            })
+            for bouquet in bouquets
+        ]
 
         return render_template(
             "catalog.html",
@@ -1015,8 +1036,13 @@ def admin_update_order_status(order_id):
 
         if cursor.rowcount == 0:
             flash("Order not found or status unchanged.", "error")
+
         else:
             connection.commit()
+
+            # OBSERVER PATTERN: Notify observers after successful update
+            order_status_subject.notify(order_id, new_status)
+
             flash(
                 f"Order #{order_id} status updated to {new_status}.",
                 "success"
@@ -1034,8 +1060,6 @@ def admin_update_order_status(order_id):
         connection.close()
 
     return redirect(url_for("admin_dashboard"))
-
-
 
 @app.route("/admin-order-details/<int:order_id>")
 def admin_order_details(order_id):
@@ -1342,11 +1366,8 @@ def admin_toggle_product(product_id):
 
 
 @app.route("/profile")
+@login_required
 def profile():
-
-    if "user_id" not in session:
-        flash("Please sign in to access your profile.", "error")
-        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
